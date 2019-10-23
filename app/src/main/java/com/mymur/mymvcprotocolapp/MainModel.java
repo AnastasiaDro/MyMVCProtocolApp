@@ -2,12 +2,11 @@ package com.mymur.mymvcprotocolapp;
 
 import android.util.Log;
 
-import androidx.fragment.app.ListFragment;
 
 import com.mymur.mymvcprotocolapp.Interfaces.Observable;
 import com.mymur.mymvcprotocolapp.Interfaces.Observer;
 
-import java.sql.SQLOutput;
+
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
