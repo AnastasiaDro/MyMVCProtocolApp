@@ -1,4 +1,4 @@
-package com.mymur.mymvcprotocolapp;
+package com.mymur.mymvcprotocolapp.Interfaces;
 
 //интерфейс наблюдаемого
 public interface Observable {

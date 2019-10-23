@@ -1,4 +1,4 @@
-package com.mymur.mymvcprotocolapp;
+package com.mymur.mymvcprotocolapp.Interfaces;
 
 public interface Observer {
     void updateViewData(String enteredText);
