@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">MyMVCProtocolApp</string>
+    <string name="addNew">Add new</string>
+    <string name="set_student">Select student</string>
+    <string name="students">Students</string>
+
+    <string name="set_trial">Select trial</string>
+    <string name="enter_name">Enter name</string>
+
+    <string name="setAnswer">Set answer</string>
+    <string name="begin">Begin</string>
 </resources>
