@@ -14,7 +14,7 @@ public class DataBaseClass {
     private Activity activity;
     int ACTIVITY_TITLE;
     ArrayList<String> studentsNamesArr;
-    ArrayList<String> studentTrialsNamesArr;
+    ArrayList<String> trialsNamesArr;
     ArrayList<String> newStudentsNamesArr;
     ArrayList<String> newStudentTrialsArr;
     //ArrayList с пробами студента для Json
@@ -25,7 +25,7 @@ public class DataBaseClass {
         this.activity = activity;
         //массив студента
         studentsNamesArr = new ArrayList<>();
-        studentTrialsNamesArr = new ArrayList<>();
+        trialsNamesArr = new ArrayList<>();
         newStudentsNamesArr = new ArrayList<>();
         newStudentTrialsArr = new ArrayList<>();
 
@@ -44,17 +44,11 @@ public class DataBaseClass {
 
     public void createTablesForDb(){
         //clearBd(myDb);
-        //будем сохранять массивы проб и результатов в формате Json...ух!!!
+        //3 таблицы-справочника и последняя - таблица результатов
         myDb.execSQL("CREATE TABLE IF NOT EXISTS Students (id_student INT, name VARCHAR(40), trials TEXT)");
         myDb.execSQL("CREATE TABLE IF NOT EXISTS Trials (id_trial INT, name VARCHAR(20))");
-        myDb.execSQL("CREATE TABLE IF NOT EXISTS practisingSet(id_practising INT, date DATETIME, id_student INT, trialResults TEXT)");
-    }
-
-    public HashMap extractStudentsWithTrials() {
-        HashMap myStudents = new HashMap();
-        //тут заполняем данными хэщмап
-
-        return myStudents;
+        myDb.execSQL("CREATE TABLE IF NOT EXISTS Result_Codes(res_code INT, res_name)");
+        myDb.execSQL("CREATE TABLE IF NOT EXISTS practisingSet(id_answer INT, id_trial INT, id_student INT, date DATETIME, res_code INT)");
     }
 
     //получим имена учеников
@@ -70,15 +64,12 @@ public class DataBaseClass {
         return studentsNamesArr;
     }
 
-    //получим имена проб заданного ученика
+    //получим имена проб
     public ArrayList <String> extractTrialsOfStudent(String studentName) {
 
         turnONdataBase();
-        //ищем студента в базе по имени
-        //выгружаем его json-строку  с его пробами в массив  studentTrialsNamesArr
-        //преобразуем json-строку в String ArrayList
-        turnOFFdataBase();
-        return studentTrialsNamesArr;
+
+        return trialsNamesArr;
     }
 
 
