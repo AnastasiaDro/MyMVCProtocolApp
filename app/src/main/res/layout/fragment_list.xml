@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/myListFragment">
+
+    <TextView
+        android:id="@+id/listTitleText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/set_student"
+        android:textAlignment="center"
+        android:textSize="30sp"
+        android:textStyle="bold" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerForFragment"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+
+    </androidx.recyclerview.widget.RecyclerView>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/addNewBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:text="@string/addNew"
+        android:layout_weight="3"/>
+
+
+</LinearLayout>

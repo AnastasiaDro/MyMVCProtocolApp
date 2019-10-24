@@ -76,6 +76,7 @@ public class DataBaseClass {
         turnONdataBase();
         //ищем студента в базе по имени
         //выгружаем его json-строку  с его пробами в массив  studentTrialsNamesArr
+        //преобразуем json-строку в String ArrayList
         turnOFFdataBase();
         return studentTrialsNamesArr;
     }
