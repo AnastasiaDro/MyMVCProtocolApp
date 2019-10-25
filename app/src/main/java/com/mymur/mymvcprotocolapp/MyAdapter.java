@@ -15,9 +15,11 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         public TextView textView;
 
 
-        public MyViewHolder(View itemView)  {
+
+        public MyViewHolder(View itemView, View.OnClickListener onClickListener)  {
             super(itemView);
-            ArrayList <String> mTextSet;
+            textView = itemView.findViewById(R.id.textName);
+            itemView.setOnClickListener(onClickListener);
 
         }
     }
