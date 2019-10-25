@@ -2,14 +2,23 @@ package com.mymur.mymvcprotocolapp;
 
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+
 import androidx.recyclerview.widget.RecyclerView;
 
-public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
+import java.util.ArrayList;
 
+public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
+    ArrayList<String> mTextArray;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public MyViewHolder(View itemView) {
+        public TextView textView;
+
+
+        public MyViewHolder(View itemView)  {
             super(itemView);
+            ArrayList <String> mTextSet;
+
         }
     }
 
