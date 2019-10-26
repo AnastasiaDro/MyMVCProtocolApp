@@ -9,17 +9,27 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
-    ArrayList<String> mTextArray;
+    ArrayList<String> stringsArray;
+
+    public MyAdapter(ArrayList<String> stringsArray) {
+        this.stringsArray = stringsArray;
+    }
+
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView textView;
 
 
 
-        public MyViewHolder(View itemView, View.OnClickListener onClickListener)  {
+        public MyViewHolder(View itemView)  {
             super(itemView);
             textView = itemView.findViewById(R.id.textName);
-            itemView.setOnClickListener(onClickListener);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
 
         }
     }
