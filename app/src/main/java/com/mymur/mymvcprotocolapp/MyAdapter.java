@@ -14,6 +14,10 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     ArrayList<String> stringsArray;
     String activityName;
 
+    public void addToStringsArray(String newString) {
+        this.stringsArray.add(newString);
+    }
+
     public MyAdapter(ArrayList<String> stringsArray, String activityName) {
         this.stringsArray = stringsArray;
         this.activityName = activityName;

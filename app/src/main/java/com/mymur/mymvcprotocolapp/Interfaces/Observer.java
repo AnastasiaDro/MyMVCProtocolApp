@@ -5,5 +5,5 @@ import android.app.Activity;
 import java.util.ArrayList;
 
 public interface Observer {
-    void updateViewData(ArrayList <String> myArray);
+    void updateViewData(String newString);
 }

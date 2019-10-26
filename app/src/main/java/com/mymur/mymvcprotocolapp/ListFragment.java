@@ -18,64 +18,100 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.button.MaterialButton;
+import com.mymur.mymvcprotocolapp.Interfaces.Observer;
 
 import java.util.ArrayList;
 
-public class ListFragment extends Fragment {
+public class ListFragment extends Fragment implements Observer {
 
     MaterialButton addNewBtn;
 
     //массив для списка
-    ArrayList <String> stringsArray;
+    ArrayList<String> stringsArray;
     String activityName;
-    String myNewSting;
+    String myNewString;
     Fragment fragment;
     DataBaseClass dataBaseClass;
+    RecyclerView recyclerView;
     int placeId;
     String studentName;
+    MyAdapter myAdapter;
 
-    public ListFragment(String activityName, DataBaseClass dataBaseClass, int placeId){
-        this.stringsArray = stringsArray;
+    public ListFragment(String activityName, DataBaseClass dataBaseClass, int placeId) {
         this.activityName = activityName;
         this.dataBaseClass = dataBaseClass;
         this.fragment = this;
         this.placeId = placeId;
-        ArrayList <String> stringsArray = new ArrayList<>();
+
     }
 
 
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_list, container, false);
-        final RecyclerView recyclerView = view.findViewById(R.id.recyclerForFragment);
-
+        recyclerView = view.findViewById(R.id.recyclerForFragment);
+        stringsArray = new ArrayList<>();
+        System.out.println("тут метод с аррэйлистом");
+        myNewString = "";
         //выгрузить из базы данных
-            if (activityName == "MainActivity") {
-                dataBaseClass.turnONdataBase();
-                stringsArray.addAll(dataBaseClass.extractStudentsNamesArray());
-        } else if (activityName == "ProtocolActivity"){
-                getActivity().getIntent().getStringExtra("");
-            }
+        if (activityName == "MainActivity") {
+            dataBaseClass.turnONdataBase();
+            System.out.println("Это стрингсАррэй" + stringsArray.toString());
+            System.out.println("Это результат метода" + dataBaseClass.extractStudentsNamesArray());
+            stringsArray.addAll(dataBaseClass.extractStudentsNamesArray());
+        } else if (activityName == "ProtocolActivity") {
+            getActivity().getIntent().getStringExtra("");
+        }
 
 
-
-        recyclerView.setHasFixedSize(true);
-        MyAdapter myAdapter = new MyAdapter(stringsArray, activityName);
+        //    recyclerView.setHasFixedSize(true);
+        myAdapter = new MyAdapter(stringsArray, activityName);
         recyclerView.setAdapter(myAdapter);
-        RecyclerView.LayoutManager layoutManager  = new LinearLayoutManager(getActivity());
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
 
         //делаем кликлистенер для кнопки
         View.OnClickListener addNewClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                createInputDialog(v.getContext());
-                if (myNewSting != null) {
-                    stringsArray.add(myNewSting);
-                    recyclerView.refreshDrawableState();
-                    reDrawFragment(fragment);
+                System.out.println("Это myNewString " + myNewString);
+                //createInputDialog(getContext(), recyclerView);
+                final EditText input = new EditText(getContext());
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setTitle(R.string.enter_name);
+                builder.setView(input);
+                // Set up the buttons
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        myNewString = input.getText().toString();
+
+                        System.out.println("Это String myNewString ВНУТРИ метода " + myNewString);
+                        //        if (myNewString != null) {
+                        stringsArray.add(myNewString);
+                        System.out.println("Это myNewString внутри диалогового окна " + myNewString);
+                        System.out.println("Это stringsArray после добавления новой строки " + stringsArray.toString());
+                        MyAdapter newAdapter = new MyAdapter(stringsArray, activityName);
+                        recyclerView.setAdapter(newAdapter);
+                        recyclerView.refreshDrawableState();
+
+                        reDrawFragment(fragment);
+                        System.out.println("мой адаптер массив строк "+ newAdapter.stringsArray.toString());
+//
+//                recyclerView.refreshDrawableState();
+
+                        //       }
+                    }
+                });
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+                System.out.println("myNewString перед билдером " + myNewString);
+                builder.show();
 
 
-                }
             }
         };
 
@@ -86,28 +122,42 @@ public class ListFragment extends Fragment {
     }
 
 
-
     //делаем диалог с юзером для добавления нового значения в отображаемый массив
-    private void createInputDialog(Context context){
-        final EditText input = new EditText(context);
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setTitle(R.string.enter_name);
-        builder.setView(input);
-        // Set up the buttons
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-               myNewSting = input.getText().toString();
-            }
-        });
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
-        builder.show();
-    }
+//    protected void createInputDialog(Context context, RecyclerView recyclerView) {
+//
+//        final EditText input = new EditText(context);
+//        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+//        builder.setTitle(R.string.enter_name);
+//        builder.setView(input);
+//        // Set up the buttons
+//        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                myNewString = input.getText().toString();
+//
+//                System.out.println("Это String myNewString ВНУТРИ метода " + myNewString);
+//      //        if (myNewString != null) {
+//                   stringsArray.add(myNewString);
+//                   System.out.println("Это myNewString внутри диалогового окна " + myNewString);
+//                  System.out.println("Это stringsArray после добавления новой строки " + stringsArray.toString());
+//
+////                  recyclerView.getAdapter().notifyDataSetChanged();
+////
+////                recyclerView.refreshDrawableState();
+//
+//       //       }
+//            }
+//        });
+//        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                dialog.cancel();
+//            }
+//        });
+//        builder.show();
+//
+//    }
+
 
 
     private void reDrawFragment(Fragment fragment) {
@@ -127,4 +177,12 @@ public class ListFragment extends Fragment {
     }
 
 
+    public void setMyNewString(String mNewString) {
+        this.myNewString = mNewString;
+    }
+
+    @Override
+    public void updateViewData(String newString) {
+
+    }
 }
