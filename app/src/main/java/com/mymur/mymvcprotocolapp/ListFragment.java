@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -29,11 +30,17 @@ public class ListFragment extends Fragment {
     String activityName;
     String myNewSting;
     Fragment fragment;
+    DataBaseClass dataBaseClass;
+    int placeId;
+    String studentName;
 
-    public ListFragment(ArrayList <String> stringsArray, String activityName){
+    public ListFragment(String activityName, DataBaseClass dataBaseClass, int placeId){
         this.stringsArray = stringsArray;
         this.activityName = activityName;
+        this.dataBaseClass = dataBaseClass;
         this.fragment = this;
+        this.placeId = placeId;
+        ArrayList <String> stringsArray = new ArrayList<>();
     }
 
 
@@ -41,9 +48,18 @@ public class ListFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_list, container, false);
         final RecyclerView recyclerView = view.findViewById(R.id.recyclerForFragment);
 
+        //выгрузить из базы данных
+            if (activityName == "MainActivity") {
+                dataBaseClass.turnONdataBase();
+                stringsArray.addAll(dataBaseClass.extractStudentsNamesArray());
+        } else if (activityName == "ProtocolActivity"){
+                getActivity().getIntent().getStringExtra("");
+            }
+
+
 
         recyclerView.setHasFixedSize(true);
-        MyAdapter myAdapter = new MyAdapter(stringsArray);
+        MyAdapter myAdapter = new MyAdapter(stringsArray, activityName);
         recyclerView.setAdapter(myAdapter);
         RecyclerView.LayoutManager layoutManager  = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
@@ -94,7 +110,7 @@ public class ListFragment extends Fragment {
     }
 
 
-    public void reDrawFragment(Fragment fragment) {
+    private void reDrawFragment(Fragment fragment) {
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         FragmentTransaction ft = fragmentManager.beginTransaction();
         ft.detach(fragment);
@@ -102,6 +118,13 @@ public class ListFragment extends Fragment {
         ft.commit();
     }
 
+    public void postFragment(AppCompatActivity activity){
+        FragmentManager fragmentManager = activity.getSupportFragmentManager();
+        FragmentTransaction ft = fragmentManager.beginTransaction();
+        ft.add(placeId, this);
+        ft.commit();
+
+    }
 
 
 }

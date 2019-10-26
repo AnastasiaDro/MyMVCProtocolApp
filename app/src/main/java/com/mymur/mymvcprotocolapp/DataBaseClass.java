@@ -45,14 +45,16 @@ public class DataBaseClass {
     public void createTablesForDb(){
         //clearBd(myDb);
         //3 таблицы-справочника и последняя - таблица результатов
+        turnONdataBase();
         myDb.execSQL("CREATE TABLE IF NOT EXISTS Students (id_student INT, name VARCHAR(40), trials TEXT)");
         myDb.execSQL("CREATE TABLE IF NOT EXISTS Trials (id_trial INT, name VARCHAR(20))");
         myDb.execSQL("CREATE TABLE IF NOT EXISTS Result_Codes(res_code INT, res_name)");
         myDb.execSQL("CREATE TABLE IF NOT EXISTS practisingSet(id_answer INT, id_trial INT, id_student INT, date DATETIME, res_code INT)");
+        turnOFFdataBase();
     }
 
     //получим имена учеников
-    public ArrayList <String> extractStudentsNames() {
+    public ArrayList <String> extractStudentsNamesArray() {
         //тут заполним данными массив с именами студентов
 
         turnONdataBase();
