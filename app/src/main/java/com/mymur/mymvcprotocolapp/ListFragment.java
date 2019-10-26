@@ -43,7 +43,7 @@ public class ListFragment extends Fragment {
 
 
         recyclerView.setHasFixedSize(true);
-        MyAdapter myAdapter = new MyAdapter();
+        MyAdapter myAdapter = new MyAdapter(stringsArray);
         recyclerView.setAdapter(myAdapter);
         RecyclerView.LayoutManager layoutManager  = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
