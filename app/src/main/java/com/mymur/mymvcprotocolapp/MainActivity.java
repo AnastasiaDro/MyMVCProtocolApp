@@ -10,22 +10,25 @@ public class MainActivity extends AppCompatActivity {
     private final String activityName = "MainActivity";
     DataBaseClass dataBaseClass;
     int placeId = R.id.placeholder;
-
+    private MyData myData;
+   // ArrayList <String> namesArray;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+     //   namesArray = new ArrayList<>();
         dataBaseClass = new DataBaseClass(this);
-        dataBaseClass.createTablesForDb();
-        dataBaseClass.turnONdataBase();
+        myData = new MyData(dataBaseClass);
+
+
 
         Bundle bundle = new Bundle();
         bundle.putInt("CurrentPosition", 0);
 
         //Создаём фрагмент со списком
-        ListFragment fragment = new ListFragment(activityName, dataBaseClass, placeId);
+        ListFragment fragment = new ListFragment(activityName, myData, placeId);
         fragment.setArguments(bundle);
         fragment.postFragment(this);
     }

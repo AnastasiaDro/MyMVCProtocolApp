@@ -31,15 +31,16 @@ public class ListFragment extends Fragment implements Observer {
     String activityName;
     String myNewString;
     Fragment fragment;
-    DataBaseClass dataBaseClass;
+    MyData myData;
     RecyclerView recyclerView;
     int placeId;
     String studentName;
     MyAdapter myAdapter;
 
-    public ListFragment(String activityName, DataBaseClass dataBaseClass, int placeId) {
+    public ListFragment(String activityName, MyData myData, int placeId) {
+
         this.activityName = activityName;
-        this.dataBaseClass = dataBaseClass;
+        this.myData = myData;
         this.fragment = this;
         this.placeId = placeId;
 
@@ -54,12 +55,11 @@ public class ListFragment extends Fragment implements Observer {
         myNewString = "";
         //выгрузить из базы данных
         if (activityName == "MainActivity") {
-            dataBaseClass.turnONdataBase();
-            System.out.println("Это стрингсАррэй" + stringsArray.toString());
-            System.out.println("Это результат метода" + dataBaseClass.extractStudentsNamesArray());
-            stringsArray.addAll(dataBaseClass.extractStudentsNamesArray());
+            stringsArray = myData.getNamesArray();
         } else if (activityName == "ProtocolActivity") {
-            getActivity().getIntent().getStringExtra("");
+            String studentName = getActivity().getIntent().getStringExtra("StudentName");
+            stringsArray = myData.loadTrialsFromDb(studentName);
+
         }
 
 
@@ -74,43 +74,7 @@ public class ListFragment extends Fragment implements Observer {
             @Override
             public void onClick(View v) {
                 System.out.println("Это myNewString " + myNewString);
-                //createInputDialog(getContext(), recyclerView);
-                final EditText input = new EditText(getContext());
-                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                builder.setTitle(R.string.enter_name);
-                builder.setView(input);
-                // Set up the buttons
-                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        myNewString = input.getText().toString();
-
-                        System.out.println("Это String myNewString ВНУТРИ метода " + myNewString);
-                        //        if (myNewString != null) {
-                        stringsArray.add(myNewString);
-                        System.out.println("Это myNewString внутри диалогового окна " + myNewString);
-                        System.out.println("Это stringsArray после добавления новой строки " + stringsArray.toString());
-                        MyAdapter newAdapter = new MyAdapter(stringsArray, activityName);
-                        recyclerView.setAdapter(newAdapter);
-                        recyclerView.refreshDrawableState();
-
-                        reDrawFragment(fragment);
-                        System.out.println("мой адаптер массив строк "+ newAdapter.stringsArray.toString());
-//
-//                recyclerView.refreshDrawableState();
-
-                        //       }
-                    }
-                });
-                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                });
-                System.out.println("myNewString перед билдером " + myNewString);
-                builder.show();
-
+                createInputDialog(getContext(), recyclerView);
 
             }
         };
@@ -123,40 +87,31 @@ public class ListFragment extends Fragment implements Observer {
 
 
     //делаем диалог с юзером для добавления нового значения в отображаемый массив
-//    protected void createInputDialog(Context context, RecyclerView recyclerView) {
-//
-//        final EditText input = new EditText(context);
-//        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-//        builder.setTitle(R.string.enter_name);
-//        builder.setView(input);
-//        // Set up the buttons
-//        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                myNewString = input.getText().toString();
-//
-//                System.out.println("Это String myNewString ВНУТРИ метода " + myNewString);
-//      //        if (myNewString != null) {
-//                   stringsArray.add(myNewString);
-//                   System.out.println("Это myNewString внутри диалогового окна " + myNewString);
-//                  System.out.println("Это stringsArray после добавления новой строки " + stringsArray.toString());
-//
-////                  recyclerView.getAdapter().notifyDataSetChanged();
-////
-////                recyclerView.refreshDrawableState();
-//
-//       //       }
-//            }
-//        });
-//        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                dialog.cancel();
-//            }
-//        });
-//        builder.show();
-//
-//    }
+    protected void createInputDialog(Context context, final RecyclerView recyclerView) {
+
+        final EditText input = new EditText(context);
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle(R.string.enter_name);
+        builder.setView(input);
+        // Set up the buttons
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                myNewString = input.getText().toString();
+                myData.changeArrayList(myNewString, activityName);
+                recyclerView.refreshDrawableState();
+                reDrawFragment(fragment);
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+        builder.show();
+
+    }
 
 
 

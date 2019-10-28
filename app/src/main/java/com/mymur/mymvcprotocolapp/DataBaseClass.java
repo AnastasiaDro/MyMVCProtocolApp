@@ -68,8 +68,9 @@ public class DataBaseClass {
 
     //получим имена проб
     public ArrayList <String> extractTrialsOfStudent(String studentName) {
-
         turnONdataBase();
+        //TODO
+        turnOFFdataBase();
 
         return trialsNamesArr;
     }
