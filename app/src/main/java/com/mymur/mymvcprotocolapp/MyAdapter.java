@@ -1,6 +1,7 @@
 package com.mymur.mymvcprotocolapp;
 
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,18 +11,19 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
+public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>{
     ArrayList<String> stringsArray;
     String activityName;
 
-    public void addToStringsArray(String newString) {
-        this.stringsArray.add(newString);
-    }
+
 
     public MyAdapter(ArrayList<String> stringsArray, String activityName) {
+
         this.stringsArray = stringsArray;
         this.activityName = activityName;
+        Log.d("MyAdapter", "stringsArray внутри конструктора адаптера юлять "+ stringsArray);
     }
+
 
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
@@ -56,6 +58,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     @Override
     public MyAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.linear_card, parent, false);
+        Log.d("ViewHolder", "stringsArray во ViewHolder" +stringsArray);
         MyViewHolder vh = new MyViewHolder(v);
         return vh;
     }
@@ -70,7 +73,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     //Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
-        return 0;
+        return stringsArray.size();
     }
 }
 

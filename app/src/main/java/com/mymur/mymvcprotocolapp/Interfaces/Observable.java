@@ -13,6 +13,6 @@ public interface Observable {
     void notifyObservers();
 
     //метод изменения данных в массиве
-    String changeArrayList(String newEnteredText, String activityName);
+    void changeArrayList(String newEnteredText, String activityName);
 }
 

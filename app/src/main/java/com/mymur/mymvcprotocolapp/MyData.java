@@ -1,6 +1,7 @@
 package com.mymur.mymvcprotocolapp;
 
 import android.app.Activity;
+import android.util.Log;
 
 import com.mymur.mymvcprotocolapp.Interfaces.Observable;
 import com.mymur.mymvcprotocolapp.Interfaces.Observer;
@@ -72,16 +73,17 @@ public class MyData implements Observable {
     }
 
     @Override
-    public String changeArrayList(String newEnteredText, String activityName) {
+    public void changeArrayList(String newEnteredText, String activityName) {
         this.newString = newEnteredText;
-        if (activityName == "mainActivity") {
+        if (activityName == "MainActivity") {
             this.namesArray.add(newEnteredText);
+            Log.d("7", "namesArray внутри MyData"+ namesArray.toString());
         }
-        if (activityName == "protocolActivity"){
+        if (activityName == "ProtocolActivity"){
             this.studentTrialsArray.add(newEnteredText);
         }
         notifyObservers();
-        return activityName;
+
     }
 
 }

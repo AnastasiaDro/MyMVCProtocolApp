@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,7 +33,7 @@ public class ListFragment extends Fragment implements Observer {
     String myNewString;
     Fragment fragment;
     MyData myData;
-    RecyclerView recyclerView;
+   // RecyclerView recyclerView;
     int placeId;
     String studentName;
     MyAdapter myAdapter;
@@ -43,27 +44,32 @@ public class ListFragment extends Fragment implements Observer {
         this.myData = myData;
         this.fragment = this;
         this.placeId = placeId;
+        fragment = this;
+        stringsArray = this.makeStringsArray();
+        myData.registerObserver(this);
+        Log.d("1", "stringsArray из конструктора фрагмента: "+ stringsArray.toString());
 
     }
 
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_list, container, false);
-        recyclerView = view.findViewById(R.id.recyclerForFragment);
-        stringsArray = new ArrayList<>();
-        System.out.println("тут метод с аррэйлистом");
-        myNewString = "";
-        //выгрузить из базы данных
-        if (activityName == "MainActivity") {
-            stringsArray = myData.getNamesArray();
-        } else if (activityName == "ProtocolActivity") {
-            String studentName = getActivity().getIntent().getStringExtra("StudentName");
-            stringsArray = myData.loadTrialsFromDb(studentName);
-
-        }
+       final RecyclerView recyclerView = view.findViewById(R.id.recyclerForFragment);
+//        stringsArray = new ArrayList<>();
+//        System.out.println("тут метод с аррэйлистом");
+//     //   myNewString = "";
+//        //выгрузить из базы данных
+//        if (activityName == "MainActivity") {
+//            stringsArray = myData.getNamesArray();
+//        } else if (activityName == "ProtocolActivity") {
+//            String studentName = getActivity().getIntent().getStringExtra("StudentName");
+//            stringsArray = myData.loadTrialsFromDb(studentName);
+//
+//        }
 
 
         //    recyclerView.setHasFixedSize(true);
+        Log.d("2", "stringsArray перед передачей адаптеру: "+ stringsArray.toString());
         myAdapter = new MyAdapter(stringsArray, activityName);
         recyclerView.setAdapter(myAdapter);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
@@ -73,8 +79,12 @@ public class ListFragment extends Fragment implements Observer {
         View.OnClickListener addNewClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                System.out.println("Это myNewString " + myNewString);
-                createInputDialog(getContext(), recyclerView);
+               Log.d("3","Это myNewString " + myNewString);
+                Log.d("4", "stringsArray во время addNewClickListener: "+ stringsArray.toString());
+                final Context context = v.getContext();
+                final EditText input = new EditText(context);
+                createInputDialog(context, input, recyclerView);
+
 
             }
         };
@@ -87,9 +97,9 @@ public class ListFragment extends Fragment implements Observer {
 
 
     //делаем диалог с юзером для добавления нового значения в отображаемый массив
-    protected void createInputDialog(Context context, final RecyclerView recyclerView) {
+    protected void createInputDialog(Context context, final EditText input, final RecyclerView recyclerView) {
 
-        final EditText input = new EditText(context);
+
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle(R.string.enter_name);
         builder.setView(input);
@@ -97,10 +107,12 @@ public class ListFragment extends Fragment implements Observer {
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                myNewString = input.getText().toString();
+               myNewString = input.getText().toString();
+                //изменяем данные в Observable классе и в нем уже уведомляем об этом наблюдателей
                 myData.changeArrayList(myNewString, activityName);
-                recyclerView.refreshDrawableState();
-                reDrawFragment(fragment);
+                //говорим адаптеру, что данные изменились
+                myAdapter.notifyDataSetChanged();
+
             }
         });
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -114,15 +126,6 @@ public class ListFragment extends Fragment implements Observer {
     }
 
 
-
-    private void reDrawFragment(Fragment fragment) {
-        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-        FragmentTransaction ft = fragmentManager.beginTransaction();
-        ft.detach(fragment);
-        ft.attach(fragment);
-        ft.commit();
-    }
-
     public void postFragment(AppCompatActivity activity){
         FragmentManager fragmentManager = activity.getSupportFragmentManager();
         FragmentTransaction ft = fragmentManager.beginTransaction();
@@ -132,12 +135,28 @@ public class ListFragment extends Fragment implements Observer {
     }
 
 
-    public void setMyNewString(String mNewString) {
-        this.myNewString = mNewString;
-    }
 
     @Override
     public void updateViewData(String newString) {
-
+        stringsArray.add(newString);
     }
+
+    private ArrayList <String> makeStringsArray () {
+       ArrayList makeStringsArray = new ArrayList<>();
+        System.out.println("тут метод с аррэйлистом");
+        //   myNewString = "";
+        //выгрузить из базы данных
+        if (activityName == "MainActivity") {
+            stringsArray = myData.getNamesArray();
+        } else if (activityName == "ProtocolActivity") {
+            String studentName = getActivity().getIntent().getStringExtra("StudentName");
+            stringsArray = myData.loadTrialsFromDb(studentName);
+
+        }
+        return makeStringsArray;
+    }
+
 }
+
+
+
