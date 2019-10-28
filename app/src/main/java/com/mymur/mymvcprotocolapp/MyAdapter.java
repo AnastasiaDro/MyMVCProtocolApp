@@ -30,7 +30,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>{
         public TextView textView;
 
 
-        public MyViewHolder(View itemView) {
+        public MyViewHolder(final View itemView) {
             super(itemView);
             textView = itemView.findViewById(R.id.textName);
             itemView.setOnClickListener(new View.OnClickListener() {
@@ -39,10 +39,10 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>{
                     switch (activityName) {
                         case ("MainActivity"):
                             Intent intent = new Intent(textView.getContext(), ProtocolActivity.class);
-                            intent.putExtra("Child", textView.getText().toString());
-                            textView.getContext().startActivity(intent);
+                            intent.putExtra("StudentName", textView.getText().toString());
+                            itemView.getContext().startActivity(intent);
                             break;
-                        case ("Protocol activity"):
+                        case ("ProtocolActivity"):
                             //Если активность protocolActivity, то при нажатии на пробу заполняется массив этой пробы и
                             //TODO
 

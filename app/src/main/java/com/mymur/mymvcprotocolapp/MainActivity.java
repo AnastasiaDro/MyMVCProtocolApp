@@ -20,7 +20,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
      //   namesArray = new ArrayList<>();
         dataBaseClass = new DataBaseClass(this);
-        myData = new MyData(dataBaseClass);
+        myData = MyData.getInstance(dataBaseClass);
 
 
 
@@ -31,5 +31,18 @@ public class MainActivity extends AppCompatActivity {
         ListFragment fragment = new ListFragment(activityName, myData, placeId);
         fragment.setArguments(bundle);
         fragment.postFragment(this);
+    }
+
+
+    @Override
+    public void onPause(){
+        super.onPause();
+        myData.sendNewStudentsToDb();
+    }
+
+    @Override
+    public void onStop(){
+        super.onStop();
+        myData.sendNewStudentsToDb();
     }
 }

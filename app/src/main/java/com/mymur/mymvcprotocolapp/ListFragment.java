@@ -1,6 +1,5 @@
 package com.mymur.mymvcprotocolapp;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -45,14 +44,17 @@ public class ListFragment extends Fragment implements Observer {
         this.fragment = this;
         this.placeId = placeId;
         fragment = this;
-        stringsArray = this.makeStringsArray();
+
         myData.registerObserver(this);
-        Log.d("1", "stringsArray из конструктора фрагмента: "+ stringsArray.toString());
+//        Log.d("1", "stringsArray из конструктора фрагмента: "+ stringsArray.toString());
 
     }
 
 
+
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+       this.makeStringsArray();
         View view = inflater.inflate(R.layout.fragment_list, container, false);
        final RecyclerView recyclerView = view.findViewById(R.id.recyclerForFragment);
 //        stringsArray = new ArrayList<>();
@@ -88,6 +90,8 @@ public class ListFragment extends Fragment implements Observer {
 
             }
         };
+
+
 
         //задаём кнопке addnew кликлистенер
         addNewBtn = view.findViewById(R.id.addNewBtn);
@@ -141,8 +145,8 @@ public class ListFragment extends Fragment implements Observer {
         stringsArray.add(newString);
     }
 
-    private ArrayList <String> makeStringsArray () {
-       ArrayList makeStringsArray = new ArrayList<>();
+    private void makeStringsArray () {
+     //  ArrayList makeStringsArray = new ArrayList<>();
         System.out.println("тут метод с аррэйлистом");
         //   myNewString = "";
         //выгрузить из базы данных
@@ -150,12 +154,23 @@ public class ListFragment extends Fragment implements Observer {
             stringsArray = myData.getNamesArray();
         } else if (activityName == "ProtocolActivity") {
             String studentName = getActivity().getIntent().getStringExtra("StudentName");
+            System.out.println("Имя ученика = "+ studentName);
             stringsArray = myData.loadTrialsFromDb(studentName);
-
         }
-        return makeStringsArray;
+      //  return stringsArray;
     }
 
+//    @Override
+//    public void onPause() {
+//        super.onPause();
+//        if (activityName == "MainActivity") {
+//            //запись имен в базу данных
+//        } else if (activityName == "ProtocolActivity") {
+//
+//        }
+//
+//
+//    }
 }
 
 
