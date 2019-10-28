@@ -4,16 +4,17 @@ import android.app.Activity;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteQuery;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 import static android.content.Context.MODE_PRIVATE;
 
 public class DataBaseClass {
     private SQLiteDatabase myDb;
     private Activity activity;
-    int ACTIVITY_TITLE;
     ArrayList<String> studentsNamesArr;
     ArrayList<String> trialsNamesArr;
    // ArrayList<String> newStudentsNamesArr;
@@ -43,13 +44,12 @@ public class DataBaseClass {
     }
 
     public void createTablesForDb(){
-        //clearBd(myDb);
+       // clearBd(myDb);
         //3 таблицы-справочника и последняя - таблица результатов
         turnONdataBase();
-        myDb.execSQL("CREATE TABLE IF NOT EXISTS Students (id_student INT, name VARCHAR(40), trials TEXT)");
-        myDb.execSQL("CREATE TABLE IF NOT EXISTS Trials (id_trial INT, name VARCHAR(20))");
-        myDb.execSQL("CREATE TABLE IF NOT EXISTS Result_Codes(res_code INT, res_name)");
-        myDb.execSQL("CREATE TABLE IF NOT EXISTS practisingSet(id_answer INT, id_trial INT, id_student INT, date DATETIME, res_code INT)");
+        myDb.execSQL("CREATE TABLE IF NOT EXISTS Students (id_student INTEGER UNIQUE PRIMARY KEY, name TEXT)");
+        myDb.execSQL("CREATE TABLE IF NOT EXISTS Result_Codes(res_code INT PRIMARY KEY, res_name)");
+        myDb.execSQL("CREATE TABLE IF NOT EXISTS practisingSet(id_training INT PRIMARY KEY, id_trial INT, id_student INT, date DATETIME, res_code INT)");
         turnOFFdataBase();
     }
 
@@ -71,8 +71,8 @@ public class DataBaseClass {
     public ArrayList <String> extractTrialsOfStudent(String studentName) {
         turnONdataBase();
         //сначала выберем студента из списка
-
-        Cursor nameIdCursor = myDb.rawQuery("select id_student from Students where name =" + studentName, null);
+        String sqlString = "select id_student from Students where name " + studentName;
+        Cursor nameIdCursor = myDb.rawQuery(sqlString, null);
         int studentId = nameIdCursor.getInt(0);
         nameIdCursor.close();
 
@@ -80,6 +80,7 @@ public class DataBaseClass {
         trialsIdsArr = new ArrayList<>();
         while (myCursor.moveToNext()){
             trialsIdsArr.add(myCursor.getInt(0));
+            System.out.println(" trialsIdsArr "+ trialsIdsArr.toString());
         }
         myCursor.close();
 
@@ -97,18 +98,56 @@ public class DataBaseClass {
 
     public void saveStudentsToDb(ArrayList <String> newStudentsNamesArr) {
         ContentValues studentRow = new ContentValues();
+        studentRow.clear();
         String studentName;
+        int startId = 0;
+        int endId = 100;
+        int randomInt;
+
         turnONdataBase();
         for (int i = 0; i < newStudentsNamesArr.size(); i++) {
             studentName = newStudentsNamesArr.get(i);
-            studentRow.put("id_student", i + 1);
+            System.out.println("имена новых студентов в  saveStudents"+newStudentsNamesArr.toString());
+            randomInt = startId + (int) (Math.random() * endId);
+            //studentRow.put("id_student", i + 1);
+//            String sql = "INSERT INTO Students (name) VALUES (" + studentName +")";
+//            myDb.execSQL(sql);
+            studentRow.put("id_student", randomInt);
+            System.out.println("сработал studentRow.put");
             studentRow.put("name", studentName);
             myDb.insert("Students", null, studentRow);
-
-
+            studentRow.clear();
         }
+            Cursor trainingCursor = myDb.rawQuery("select * from Students", null);
+
+            while (trainingCursor.moveToNext()){
+                String name = trainingCursor.getString(1);
+                System.out.println("Это имя "+ name);
+                int id = trainingCursor.getInt(0);
+                System.out.println("Это id " + id);
+            }
+
+            trainingCursor.close();
+
         turnOFFdataBase();
     }
+
+    public void saveONEStudentToDb(String studentName) {
+        ContentValues studentRow = new ContentValues();
+        turnONdataBase();
+     //   studentRow("id_student", )
+        studentRow.put("name", studentName);
+        myDb.insert("Students", null, studentRow);
+        turnOFFdataBase();
+    }
+
+
+
+    private void clearBd(SQLiteDatabase myDb) {
+        myDb.delete("Students", null, null);
+        myDb.delete("Trials", null, null);
+    }
+
 
 
 }

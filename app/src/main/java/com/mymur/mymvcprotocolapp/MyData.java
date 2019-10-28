@@ -101,6 +101,9 @@ public class MyData implements Observable {
             this.namesArray.add(newEnteredText);
             Log.d("7", "namesArray внутри MyData"+ namesArray.toString());
             this.newStudentsNames.add(newEnteredText);
+            System.out.println("Это newStudentsArr внутри MyData"+ newStudentsNames.toString());
+            sendNewStudentsToDb();
+
         }
         if (activityName == "ProtocolActivity"){
             this.studentTrialsArray.add(newEnteredText);

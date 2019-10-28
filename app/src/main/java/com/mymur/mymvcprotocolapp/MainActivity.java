@@ -34,15 +34,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    @Override
-    public void onPause(){
-        super.onPause();
-        myData.sendNewStudentsToDb();
-    }
+//    @Override
+//    public void onPause(){
+//        super.onPause();
+//        myData.sendNewStudentsToDb();
+//    }
 
-    @Override
-    public void onStop(){
-        super.onStop();
-        myData.sendNewStudentsToDb();
-    }
+
 }

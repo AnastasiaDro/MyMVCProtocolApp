@@ -116,6 +116,7 @@ public class ListFragment extends Fragment implements Observer {
                 myData.changeArrayList(myNewString, activityName);
                 //говорим адаптеру, что данные изменились
                 myAdapter.notifyDataSetChanged();
+                System.out.println("stringsArrayList после изменения адаптера" + stringsArray);
 
             }
         });
@@ -142,7 +143,11 @@ public class ListFragment extends Fragment implements Observer {
 
     @Override
     public void updateViewData(String newString) {
-        stringsArray.add(newString);
+
+//        stringsArray.add(newString);
+        //говорим адаптеру, что данные изменились
+        myAdapter.notifyDataSetChanged();
+       System.out.println("stringsArrayList После update" + stringsArray);
     }
 
     private void makeStringsArray () {
