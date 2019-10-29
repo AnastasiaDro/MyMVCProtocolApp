@@ -61,9 +61,10 @@ public class MyData implements Observable {
     //загрузка имен студентов из базы данных
     protected ArrayList <String> loadNamesFromDb(){
         dataBaseClass.turnONdataBase();
-        dataBaseClass.createTablesForDb();
+//        dataBaseClass.createTablesForDb();
+
         namesArray = dataBaseClass.extractStudentsNamesArray();
-        dataBaseClass.turnOFFdataBase();
+   //     dataBaseClass.turnOFFdataBase();
         return namesArray;
     }
 
