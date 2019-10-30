@@ -19,30 +19,31 @@ public class DataBaseClass extends SQLiteOpenHelper {
     private Activity activity;
     ArrayList<String> studentsNamesArr;
     ArrayList<String> trialsNamesArr;
-   // ArrayList<String> newStudentsNamesArr;
-    //ArrayList<String> newStudentTrialsArr;
+    ArrayList<String> newStudentsNamesArr;
+    ArrayList<String> newStudentTrialsArr;
     //ArrayList с id проб студента
-    ArrayList <Integer> trialsIdsArr;
+    ArrayList<Integer> trialsIdsArr;
     public static int DATABASE_VERSION = 1;
+    private int studentId;
 
 
-
-
-    public DataBaseClass (Activity activity) {
+    public DataBaseClass(Activity activity) {
         super(activity, "myDb", null, 1);
         this.activity = activity;
         //массив студента
         studentsNamesArr = new ArrayList<>();
         trialsNamesArr = new ArrayList<>();
-//        newStudentsNamesArr = new ArrayList<>();
-//        newStudentTrialsArr = new ArrayList<>();
+        newStudentsNamesArr = new ArrayList<>();
+        newStudentTrialsArr = new ArrayList<>();
+
     }
 
     @Override
     public void onCreate(SQLiteDatabase myDb) {
-        myDb.execSQL("CREATE TABLE IF NOT EXISTS Students (id_student INTEGER UNIQUE PRIMARY KEY, name TEXT)");
+        myDb.execSQL("CREATE TABLE IF NOT EXISTS Students (id_student INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT)");
+        myDb.execSQL("CREATE TABLE IF NOT EXISTS Trials (id_trial INT PRIMARY KEY, name TEXT)");
         myDb.execSQL("CREATE TABLE IF NOT EXISTS Result_Codes(res_code INT PRIMARY KEY, res_name)");
-            //пример:    db.execSQL("create table mytable (" + "id integer primary key autoincrement," + "name text," + "email text" + ");");
+        //пример:    db.execSQL("create table mytable (" + "id integer primary key autoincrement," + "name text," + "email text" + ");");
         myDb.execSQL("CREATE TABLE IF NOT EXISTS practisingSet(id_training INT PRIMARY KEY, id_trial INT, id_student INT, date DATETIME, res_code INT)");
 
     }
@@ -52,9 +53,9 @@ public class DataBaseClass extends SQLiteOpenHelper {
 
     }
 
-//      подключаемся к базе данных
+    //      подключаемся к базе данных
     public void turnONdataBase() {
-       // myDb = activity.openOrCreateDatabase("my.db", MODE_PRIVATE, null);
+        // myDb = activity.openOrCreateDatabase("my.db", MODE_PRIVATE, null);
 
         myDb = getWritableDatabase();
     }
@@ -74,34 +75,62 @@ public class DataBaseClass extends SQLiteOpenHelper {
 //    }
 
     //получим имена учеников
-    public ArrayList <String> extractStudentsNamesArray() {
+    public ArrayList<String> extractStudentsNamesArray() {
         //тут заполним данными массив с именами студентов
 
-       // turnONdataBase();
+        // turnONdataBase();
         Cursor myCursor = myDb.rawQuery("select name from Students", null);
+        int l = 0;
         while (myCursor.moveToNext()) {
+            l++;
             studentsNamesArr.add(myCursor.getString(0));
+            System.out.println(l + " добавили студента");
         }
+        //поищем айди студентов
+        Cursor pracCursor = myDb.rawQuery("select id_student from Students", null);
+        while (myCursor.moveToNext()){
+            System.out.println("Это пробный курсор из DataBAse-класса и значение ID " + pracCursor.getInt(0));
+        }
+
+
+
         myCursor.close();
-      //  turnOFFdataBase();
+        //  turnOFFdataBase();
         return studentsNamesArr;
     }
 
     //получим имена проб
-    public ArrayList <String> extractTrialsOfStudent(String studentName) {
+    public ArrayList<String> extractTrialsOfStudent(String studentName) {
         turnONdataBase();
+//        //метод из startandroid
+//        Log.d("STARTANDROID", "айди по имени");
+//        String id = "id_student";
+//        String groupBy = "name";
+//        Cursor c = myDb.query("Students", id, )
+
+
         //сначала выберем студента из списка
-        String sqlString = "select id_student from Students where name = " + studentName;
+        String sqlString = "select id_student from Students where name = :" + studentName;
+
         Cursor nameIdCursor = myDb.rawQuery(sqlString, null);
-        int studentId = nameIdCursor.getInt(0);
+        if (nameIdCursor.moveToFirst()) {
+            // Cursor nameIdCursor = myDb.query("Students", "id_student", "name ="+studentName, null, null, null);
+            studentId = nameIdCursor.getInt(1);
+        } else {
+            Toast myToast = Toast.makeText(activity, R.string.have_not_trials, Toast.LENGTH_LONG);
+            myToast.show();
+        }
         nameIdCursor.close();
 
         //тут надо проверку на не пуста ли таблица проб
 
-        Cursor myCursor = myDb.rawQuery("select id_trial INT from practisingSet where id_student = " + studentId, null);
+        Cursor myCursor = myDb.query("practisingSet", null, null, null, null, null, null);
+        //  myDb.rawQuery("select id_trial INT from practisingSet where id_student = " + studentId, null);
+
         // ставим позицию курсора на первую строку выборки
         // если в выборке нет строк, вернется false
         if (myCursor.moveToFirst()) {
+            myCursor = myDb.rawQuery("select id_trial INT from practisingSet where id_student = " + studentId, null);
             trialsIdsArr = new ArrayList<>();
             while (myCursor.moveToNext()) {
                 trialsIdsArr.add(myCursor.getInt(0));
@@ -113,17 +142,29 @@ public class DataBaseClass extends SQLiteOpenHelper {
         }
         myCursor.close();
 
-        Cursor trialsNamesCursor;
-        for (int i = 0; i < trialsIdsArr.size(); i++) {
-            trialsNamesCursor = myDb.rawQuery("select name from Trials where id_trial =" + trialsIdsArr.get(i),null);
-            trialsNamesArr.add(trialsNamesCursor.getString(0));
-            Log.d("trialsNamesCursor", "мой массив TrialsNamesArr "+ trialsNamesArr.toString());
-        }
-        //turnOFFdataBase();
+        // Cursor trialsNamesCursor;
+        Cursor trialsNamesCursor = myDb.query("Trials", null, null, null, null, null, null);
+        if (trialsNamesCursor.moveToFirst()) {
+            //ПОДУМАТЬ!!!!
+            for (int i = 0; i < trialsIdsArr.size(); i++) {
+                trialsNamesCursor = myDb.rawQuery("select name from Trials where id_trial =" + trialsIdsArr.get(i), null);
+                trialsNamesArr.add(trialsNamesCursor.getString(0));
+                Log.d("trialsNamesCursor", "мой массив TrialsNamesArr " + trialsNamesArr.toString());
+//        }
+                //         trialsNamesCursor = myDb.rawQuery("select name from Trials where id_trial =" + trialsIdsArr.get(i),null);
+            }
+//        for (int i = 0; i < trialsIdsArr.size(); i++) {
+//            trialsNamesCursor = myDb.rawQuery("select name from Trials where id_trial =" + trialsIdsArr.get(i),null);
+//            trialsNamesArr.add(trialsNamesCursor.getString(0));
+//            Log.d("trialsNamesCursor", "мой массив TrialsNamesArr "+ trialsNamesArr.toString());
+//        }
 
+            //turnOFFdataBase();
+
+
+        }
         return trialsNamesArr;
     }
-
 
     public void saveStudentsToDb(ArrayList <String> newStudentsNamesArr) {
         ContentValues studentRow = new ContentValues();
@@ -139,6 +180,9 @@ public class DataBaseClass extends SQLiteOpenHelper {
             System.out.println("имена новых студентов в  saveStudents"+newStudentsNamesArr.toString());
   //          randomInt = startId + (int) (Math.random() * endId);
             //studentRow.put("id_student", i + 1);
+
+
+
 //            String sql = "INSERT INTO Students (name) VALUES (" + studentName +")";
 //            myDb.execSQL(sql);
           //  studentRow.put("id_student", randomInt);
