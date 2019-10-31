@@ -9,8 +9,6 @@ public class MainActivity extends AppCompatActivity {
     int placeId = R.id.placeholder;
     private MyData myData;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,13 +23,4 @@ public class MainActivity extends AppCompatActivity {
         fragment.setArguments(bundle);
         fragment.postFragment(this);
     }
-
-
-//    @Override
-//    public void onPause(){
-//        super.onPause();
-//        myData.sendNewStudentsToDb();
-//    }
-
-
 }

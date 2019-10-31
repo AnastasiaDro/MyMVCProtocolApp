@@ -48,15 +48,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>{
                 @Override
                 public void onClick(View v) {
                  //   Связано с выделением
-                    // Save the selected positions to the SparseBooleanArray
-//                    if (selectedItems.get(getAdapterPosition(), false)) {
-//                        selectedItems.delete(getAdapterPosition());
-//                        itemView.setSelected(false);
-//                    }
-//                    else {
-//                        selectedItems.put(getAdapterPosition(), true);
-//                        itemView.setSelected(true);
-//                    }
                    int currentPosition = getAdapterPosition();
                    if (selectedPosition != currentPosition) {
                        // Temporarily save the last selected position
@@ -69,14 +60,19 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>{
                        itemView.setSelected(true);
                    }
 
+                   String textViewContent = textView.getText().toString();
                     switch (activityName) {
                         case ("MainActivity"):
                             Intent intent = new Intent(textView.getContext(), ProtocolActivity.class);
-                            intent.putExtra("StudentName", textView.getText().toString());
+                            intent.putExtra("StudentName", textViewContent);
                             itemView.getContext().startActivity(intent);
                             break;
                         case ("ProtocolActivity"):
-                            //Если активность protocolActivity, то при нажатии на пробу заполняется массив этой пробы и
+                            //Если активность protocolActivity, то при нажатии на пробу берется название этой пробы textViewContent
+                            //открываем базу данных
+                            //берем общую таблицу practisingSet
+                            //добавляем в нее: новый id_training INT PRIMARY KEY, id нащей пробы по имени textViewContent, id_student INT, date DATETIME, res_code INT - зависит от кнопки
+
                             //TODO
 
                             break;
@@ -107,8 +103,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>{
         } else {
             holder.itemView.setSelected(false);
         }
-
-
         //get element from your dataset at this position
         //replace the contents of the view with that element
         holder.textView.setText(stringsArray.get(position));
