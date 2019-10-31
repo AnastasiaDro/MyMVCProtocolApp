@@ -44,7 +44,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>{
                         case ("ProtocolActivity"):
                             //Если активность protocolActivity, то при нажатии на пробу заполняется массив этой пробы и
                             //TODO
-
+                            
                             break;
                     }
                 }
