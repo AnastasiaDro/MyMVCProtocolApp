@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,14 +26,13 @@ import java.util.ArrayList;
 public class ListFragment extends Fragment implements Observer {
 
     MaterialButton addNewBtn;
-
+    TextView listTitleText;
     //массив для списка
     ArrayList<String> stringsArray;
     String activityName;
     String myNewString;
     Fragment fragment;
     MyData myData;
-   // RecyclerView recyclerView;
     int placeId;
     String studentName;
     MyAdapter myAdapter;
@@ -46,8 +46,6 @@ public class ListFragment extends Fragment implements Observer {
         fragment = this;
 
         myData.registerObserver(this);
-//        Log.d("1", "stringsArray из конструктора фрагмента: "+ stringsArray.toString());
-
     }
 
 
@@ -57,20 +55,6 @@ public class ListFragment extends Fragment implements Observer {
        this.makeStringsArray();
         View view = inflater.inflate(R.layout.fragment_list, container, false);
        final RecyclerView recyclerView = view.findViewById(R.id.recyclerForFragment);
-//        stringsArray = new ArrayList<>();
-//        System.out.println("тут метод с аррэйлистом");
-//     //   myNewString = "";
-//        //выгрузить из базы данных
-//        if (activityName == "MainActivity") {
-//            stringsArray = myData.getNamesArray();
-//        } else if (activityName == "ProtocolActivity") {
-//            String studentName = getActivity().getIntent().getStringExtra("StudentName");
-//            stringsArray = myData.loadTrialsFromDb(studentName);
-//
-//        }
-
-
-        //    recyclerView.setHasFixedSize(true);
         Log.d("2", "stringsArray перед передачей адаптеру: "+ stringsArray.toString());
         myAdapter = new MyAdapter(stringsArray, activityName);
         recyclerView.setAdapter(myAdapter);
@@ -86,8 +70,6 @@ public class ListFragment extends Fragment implements Observer {
                 final Context context = v.getContext();
                 final EditText input = new EditText(context);
                 createInputDialog(context, input, recyclerView);
-
-
             }
         };
 
@@ -96,6 +78,13 @@ public class ListFragment extends Fragment implements Observer {
         //задаём кнопке addnew кликлистенер
         addNewBtn = view.findViewById(R.id.addNewBtn);
         addNewBtn.setOnClickListener(addNewClickListener);
+        //ищем текстВью с заголовком
+        listTitleText = view.findViewById(R.id.listTitleText);
+        if (activityName == "ProtocolActivity"){
+            listTitleText.setText(R.string.set_trial);
+        }
+
+
         return view;
     }
 
@@ -116,7 +105,6 @@ public class ListFragment extends Fragment implements Observer {
                 myData.changeArrayList(myNewString, activityName);
                 //говорим адаптеру, что данные изменились
                 myAdapter.notifyDataSetChanged();
-                System.out.println("stringsArrayList после изменения адаптера" + stringsArray);
 
             }
         });
@@ -151,9 +139,8 @@ public class ListFragment extends Fragment implements Observer {
     }
 
     private void makeStringsArray () {
-     //  ArrayList makeStringsArray = new ArrayList<>();
         System.out.println("тут метод с аррэйлистом");
-        //   myNewString = "";
+
         //выгрузить из базы данных
         if (activityName == "MainActivity") {
             stringsArray = myData.getNamesArray();
@@ -162,7 +149,6 @@ public class ListFragment extends Fragment implements Observer {
             System.out.println("Имя ученика = "+ studentName);
             stringsArray = myData.loadTrialsFromDb(studentName);
         }
-      //  return stringsArray;
     }
 
 //    @Override

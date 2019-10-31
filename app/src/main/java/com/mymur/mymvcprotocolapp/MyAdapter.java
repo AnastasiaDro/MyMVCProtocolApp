@@ -21,7 +21,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>{
 
         this.stringsArray = stringsArray;
         this.activityName = activityName;
-        Log.d("MyAdapter", "stringsArray внутри конструктора адаптера юлять "+ stringsArray);
     }
 
 

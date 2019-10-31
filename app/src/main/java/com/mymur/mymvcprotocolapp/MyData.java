@@ -109,6 +109,7 @@ public class MyData implements Observable {
         if (activityName == "ProtocolActivity"){
             this.studentTrialsArray.add(newEnteredText);
             this.newTrialsNames.add(newEnteredText);
+            sendNewTrialsToDb();
         }
         notifyObservers();
 
@@ -117,6 +118,10 @@ public class MyData implements Observable {
 
     public void sendNewStudentsToDb() {
         dataBaseClass.saveStudentsToDb(newStudentsNames);
+    }
+
+    public void sendNewTrialsToDb() {
+        dataBaseClass.saveTrialsToDb(newTrialsNames);
     }
 
 }
