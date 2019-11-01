@@ -27,20 +27,20 @@
             >
 
             <Button
-                android:id="@+id/button10"
+                android:id="@+id/btnBadAnswer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Button"
+                android:layout_gravity="left"
                 android:layout_margin="5dp"
-                android:layout_gravity="left"/>
+                android:text="@string/badAnswer" />
 
             <Button
-                android:id="@+id/button11"
+                android:id="@+id/btnWHanswer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
                 android:layout_margin="5dp"
-                android:text="Button" />
+                android:text="@string/with_hint" />
         </TableRow>
 
         <TableRow
@@ -50,20 +50,12 @@
             >
 
             <Button
-                android:id="@+id/button12"
+                android:id="@+id/btnGoodAnswer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Button"
+                android:layout_gravity="right"
                 android:layout_margin="5dp"
-                android:layout_gravity="left"/>
-
-            <Button
-                android:id="@+id/button13"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Button"
-                android:layout_margin="5dp"
-                android:layout_gravity="right"/>
+                android:text="@string/good" />
         </TableRow>
 
         <TableRow

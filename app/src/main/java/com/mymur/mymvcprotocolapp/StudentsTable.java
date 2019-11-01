@@ -4,8 +4,6 @@ package com.mymur.mymvcprotocolapp;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-
-import java.util.ArrayList;
 import java.util.HashMap;
 
 //класс таблицы студентов

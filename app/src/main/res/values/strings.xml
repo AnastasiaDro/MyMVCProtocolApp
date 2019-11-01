@@ -10,4 +10,7 @@
     <string name="setAnswer">Set answer</string>
     <string name="begin">Begin</string>
     <string name="have_not_trials">This student have not trials</string>
+    <string name="badAnswer">Bad</string>
+    <string name="with_hint">With hint</string>
+    <string name="good">good</string>
 </resources>

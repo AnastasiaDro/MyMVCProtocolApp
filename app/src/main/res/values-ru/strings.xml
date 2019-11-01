@@ -11,4 +11,7 @@
     <string name="setAnswer">Выбрать вопрос</string>
     <string name="begin">Начать</string>
     <string name="have_not_trials">У студента нет проб</string>
+    <string name="badAnswer">Плохо</string>
+    <string name="with_hint">С подсказкой</string>
+    <string name="good">Хорошо</string>
 </resources>
