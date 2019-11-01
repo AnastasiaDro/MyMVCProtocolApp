@@ -7,7 +7,8 @@ import android.os.Bundle;
 public class ProtocolActivity extends AppCompatActivity {
 
     private final String activityName = "ProtocolActivity";
-    DataBaseClass dataBaseClass;
+   // DataBaseClass dataBaseClass;
+    DataBaseHelper dbHelper;
     int placeId = R.id.placeholderForProtocol;
     private MyData myData;
 
@@ -18,8 +19,8 @@ public class ProtocolActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_protocol);
         //фэйк, так как все равно ссылаемся на myData, у которого база данных в mainActivity
-        dataBaseClass = new DataBaseClass(this);
-        myData = MyData.getInstance(dataBaseClass);
+        dbHelper = new DataBaseHelper(this);
+        myData = MyData.getInstance(dbHelper);
 
         Bundle bundle = new Bundle();
         bundle.putInt("CurrentPosition", 0);

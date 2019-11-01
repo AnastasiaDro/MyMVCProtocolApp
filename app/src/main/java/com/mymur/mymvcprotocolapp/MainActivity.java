@@ -5,7 +5,8 @@ import android.os.Bundle;
 
 public class MainActivity extends AppCompatActivity {
     private final String activityName = "MainActivity";
-    DataBaseClass dataBaseClass;
+    //DataBaseClass dataBaseClass;
+    DataBaseHelper dbHelper;
     int placeId = R.id.placeholder;
     private MyData myData;
 
@@ -13,8 +14,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        dataBaseClass = new DataBaseClass(this);
-        myData = MyData.getInstance(dataBaseClass);
+
+        //dataBaseClass = new DataBaseClass(this);
+        dbHelper = new DataBaseHelper(this);
+       // myData = MyData.getInstance(dbHelper);
+        myData = MyData.getInstance(dbHelper);
         Bundle bundle = new Bundle();
         bundle.putInt("CurrentPosition", 0);
 

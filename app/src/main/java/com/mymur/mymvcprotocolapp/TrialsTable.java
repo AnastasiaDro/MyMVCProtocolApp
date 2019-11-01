@@ -20,4 +20,11 @@ public class TrialsTable {
         values.put(COLUMN_NAME, trialName);
         database.insert(TABLE_NAME, null, values);
     }
+
+    public static void addTrialIfNotExists(String trialName, SQLiteDatabase database){
+//        if
+//
+//        addTrial(trialName, database);
+    }
+
 }

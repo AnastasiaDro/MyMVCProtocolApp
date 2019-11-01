@@ -12,7 +12,8 @@ import java.util.List;
 
 public class MyData implements Observable {
     private static MyData instance;
-    private DataBaseClass dataBaseClass;
+   // private DataBaseClass dataBaseClass;
+    private DataBaseHelper dbHelper;
     private List<Observer> observers;
     private ArrayList<String> namesArray;
     private ArrayList <String> studentTrialsArray;
@@ -22,34 +23,32 @@ public class MyData implements Observable {
     ArrayList <String> newTrialsNames;
 
     //делаем из класса синглтон
-    private MyData(DataBaseClass dataBaseClass){
+    //private MyData(DataBaseClass dataBaseClass){
+
+    private MyData(DataBaseHelper dbHelper){
         studentTrialsArray = new ArrayList<>();
         newStudentsNames = new ArrayList<>();
         newTrialsNames = new ArrayList<>();
         observers = new LinkedList<>();
-        this.dataBaseClass = dataBaseClass;
+       // this.dataBaseClass = dataBaseClass;
+        this.dbHelper = dbHelper;
         //в получившийся аррэйлист загружаем данные из БД
         namesArray = loadNamesFromDb();
     }
-
-    public static MyData getInstance(DataBaseClass dataBaseClass){
+//
+//    public static MyData getInstance(DataBaseClass dataBaseClass){
+//        if (instance == null) {
+//            instance = new MyData(dataBaseClass);
+//        }
+//        return instance;
+//    }
+public static MyData getInstance(DataBaseHelper dbHelper){
         if (instance == null) {
-            instance = new MyData(dataBaseClass);
+            instance = new MyData(dbHelper);
         }
         return instance;
     }
 
-
-
-
-//    public MyData(DataBaseClass dataBaseClass){
-//        studentTrialsArray = new ArrayList<>();
-//        observers = new LinkedList<>();
-//        this.dataBaseClass = dataBaseClass;
-//        namesArray = new ArrayList<>();
-//        //в получившийся аррэйлист загружаем данные из БД
-//        namesArray = loadNamesFromDb();
-//    }
 
     public ArrayList<String> getNamesArray() {
         return namesArray;
@@ -60,16 +59,16 @@ public class MyData implements Observable {
 
     //загрузка имен студентов из базы данных
     protected ArrayList <String> loadNamesFromDb(){
-        dataBaseClass.turnONdataBase();
+        //dataBaseClass.turnONdataBase();
 //        dataBaseClass.createTablesForDb();
 
-        namesArray = dataBaseClass.extractStudentsNamesArray();
-   //     dataBaseClass.turnOFFdataBase();
+        namesArray = dbHelper.extractStudentsNamesArray();
+
         return namesArray;
     }
 
     protected ArrayList<String> loadTrialsFromDb(String studentName) {
-        studentTrialsArray = dataBaseClass.extractTrialsOfStudent(studentName);
+      //  studentTrialsArray = dataBaseClass.extractTrialsOfStudent(studentName);
         return studentTrialsArray;
     }
 
@@ -103,7 +102,7 @@ public class MyData implements Observable {
             Log.d("7", "namesArray внутри MyData"+ namesArray.toString());
             this.newStudentsNames.add(newEnteredText);
             System.out.println("Это newStudentsArr внутри MyData"+ newStudentsNames.toString());
-            sendNewStudentsToDb();
+            saveNewStudentsToDb();
 
         }
         if (activityName == "ProtocolActivity"){
@@ -116,12 +115,12 @@ public class MyData implements Observable {
     }
 
 
-    public void sendNewStudentsToDb() {
-        dataBaseClass.saveStudentsToDb(newStudentsNames);
+    public void saveNewStudentsToDb() {
+        dbHelper.saveStudentsToDb(newStudentsNames);
     }
 
     public void sendNewTrialsToDb() {
-        dataBaseClass.saveTrialsToDb(newTrialsNames);
+      //  dataBaseHelper.saveTrialsToDb(newTrialsNames);
     }
 
 }
