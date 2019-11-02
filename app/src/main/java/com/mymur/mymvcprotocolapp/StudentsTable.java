@@ -40,4 +40,13 @@ public class StudentsTable {
 
     }
 
+
+    public static int getStudentId(SQLiteDatabase database, String studentName) {
+        int studentId;
+        Cursor myCursor = database.rawQuery("SELECT " + COLUMN_ID + "  FROM "  +TABLE_NAME + " WHERE " + COLUMN_NAME +"= :" + studentName,  null);
+        int idIndex = myCursor.getColumnIndexOrThrow(COLUMN_ID);
+        studentId = myCursor.getInt(idIndex);
+        return studentId;
+    }
+
 }

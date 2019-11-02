@@ -14,21 +14,23 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1;
     String [] resNames;
     ArrayList<String> studentsNamesArr;
-    ArrayList<String> trialsNamesArr;
+    ArrayList<String> studentTrialsNamesArr;
     ArrayList<String> newStudentsNamesArr;
     ArrayList<String> newStudentTrialsArr;
     //ArrayList с id проб студента
     ArrayList<Integer> trialsIdsArr;
     HashMap <Integer, String> studentsMap;
+    ArrayList <Integer> studentTrialsIDArr;
 
     public DataBaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         resNames = new String[]{"bad", "with_hint", "good"};
         studentsMap = new HashMap<>();
         studentsNamesArr = new ArrayList<>();
-        trialsNamesArr = new ArrayList<>();
+        studentTrialsNamesArr = new ArrayList<>();
         newStudentsNamesArr = new ArrayList<>();
         newStudentTrialsArr = new ArrayList<>();
+        studentTrialsIDArr = new ArrayList<>();
 
     }
 
@@ -73,6 +75,17 @@ public class DataBaseHelper extends SQLiteOpenHelper {
           studentsMap = StudentsTable.getAllStudentsNames(this.getWritableDatabase());
      }
 
+
+    public ArrayList<String>  extractTrialsOfStudent(String studentName) {
+        SQLiteDatabase database = this.getReadableDatabase();
+        //здесь код из 3х таблиц
+        //Получаем ID студента по его имени
+        int studentId = StudentsTable.getStudentId(database, studentName);
+        //Получаем все ID-шники проб студента из практики
+        studentTrialsIDArr = PracticingResultsTable.getStudentTrialsIDArray(studentId, database);
+        studentTrialsNamesArr = TrialsTable.getNamesOfAllStudentTrial(studentTrialsIDArr, database);
+        return studentTrialsNamesArr;
+    }
 
 }
 

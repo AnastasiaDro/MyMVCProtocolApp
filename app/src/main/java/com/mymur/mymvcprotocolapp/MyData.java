@@ -68,7 +68,7 @@ public static MyData getInstance(DataBaseHelper dbHelper){
     }
 
     protected ArrayList<String> loadTrialsFromDb(String studentName) {
-      //  studentTrialsArray = dataBaseClass.extractTrialsOfStudent(studentName);
+        studentTrialsArray = dbHelper.extractTrialsOfStudent(studentName);
         return studentTrialsArray;
     }
 
