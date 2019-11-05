@@ -93,6 +93,11 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         TrialsTable.addTrialIfNotExists(trialName, this.getWritableDatabase());
     }
 
+    public void addTrialsResult () {
+        PracticingResultsTable.addPracticing();
+    }
+
+
 }
 
 

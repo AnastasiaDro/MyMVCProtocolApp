@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -16,7 +17,7 @@ public class PracticingResultsTable {
     private final static String COLUMN_TRIAL_ID = "_id_trial";
     private final static String COLUMN_RESULT_CODE = "_id_resCode";
     private static String DATE = "_date";
-    private final static Date date = new Date();
+    private final static Date date = Calendar.getInstance().getTime();
     private final static String dateStr = date.toString();
 
 
@@ -28,8 +29,6 @@ public class PracticingResultsTable {
 
     public static void addPracticing(int studentId, int trialId, int resCode, SQLiteDatabase database) {
         ContentValues values = new ContentValues();
-
-        String dateStr = date.toString();
         values.put(COLUMN_STUDENT_ID, studentId);
         values.put(COLUMN_TRIAL_ID, trialId);
         values.put(COLUMN_RESULT_CODE, resCode);
@@ -54,6 +53,8 @@ public class PracticingResultsTable {
         studentTrialsIDArray.addAll(studentTrialsSet);
         return studentTrialsIDArray;
     }
+
+
 
 
 

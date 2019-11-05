@@ -3,6 +3,7 @@ package com.mymur.mymvcprotocolapp;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 
 public class ProtocolActivity extends AppCompatActivity {
@@ -43,4 +44,21 @@ public class ProtocolActivity extends AppCompatActivity {
     }
 
 
+    public void onResultClick(View view) {
+        switch (view.getId()) {
+            case (R.id.btnBadAnswer): {
+                resultCode = 1;
+                break;
+            }
+            case (R.id.btnWHanswer): {
+                resultCode = 2;
+                break;
+            }
+            case (R.id.btnGoodAnswer):{
+                resultCode = 3;
+                break;
+            }
+        }
+        //ЗДЕСЬ МЕТОД ОТПРАВКИ В БАЗУ ДАННЫХ ПРОБЫ
+    }
 }

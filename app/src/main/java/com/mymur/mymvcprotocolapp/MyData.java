@@ -35,13 +35,8 @@ public class MyData implements Observable {
         //в получившийся аррэйлист загружаем данные из БД
         namesArray = loadNamesFromDb();
     }
-//
-//    public static MyData getInstance(DataBaseClass dataBaseClass){
-//        if (instance == null) {
-//            instance = new MyData(dataBaseClass);
-//        }
-//        return instance;
-//    }
+
+
 public static MyData getInstance(DataBaseHelper dbHelper){
         if (instance == null) {
             instance = new MyData(dbHelper);
@@ -122,6 +117,12 @@ public static MyData getInstance(DataBaseHelper dbHelper){
 
     public void saveNewTrialToDb(String newTrial) {
        dbHelper.saveNewTrialToDbIfNotExists(newTrial);
+    }
+
+    //метод записи в кэш данных
+    //каждые 10 проб отправляем в базу
+    public void saveResultOfTrialToArr() {
+
     }
 
 }
