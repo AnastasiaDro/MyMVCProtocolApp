@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 
 //класс таблицы проб
 public class TrialsTable {
@@ -27,9 +28,8 @@ public class TrialsTable {
     }
 
     public static void addTrialIfNotExists(String trialName, SQLiteDatabase database){
-//        if
-//
-//        addTrial(trialName, database);
+       if (!getAllTrialsNames(database).containsValue(trialName));
+        addTrial(trialName, database);
     }
 
     public static ArrayList <String> getNamesOfAllStudentTrial(ArrayList <Integer> studentTrialsIDArr, SQLiteDatabase database){

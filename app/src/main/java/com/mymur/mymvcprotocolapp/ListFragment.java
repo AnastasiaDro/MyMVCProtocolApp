@@ -91,8 +91,6 @@ public class ListFragment extends Fragment implements Observer {
 
     //делаем диалог с юзером для добавления нового значения в отображаемый массив
     protected void createInputDialog(Context context, final EditText input, final RecyclerView recyclerView) {
-
-
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle(R.string.enter_name);
         builder.setView(input);
@@ -151,17 +149,6 @@ public class ListFragment extends Fragment implements Observer {
         }
     }
 
-//    @Override
-//    public void onPause() {
-//        super.onPause();
-//        if (activityName == "MainActivity") {
-//            //запись имен в базу данных
-//        } else if (activityName == "ProtocolActivity") {
-//
-//        }
-//
-//
-//    }
 }
 
 

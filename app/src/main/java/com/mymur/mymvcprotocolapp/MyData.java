@@ -107,8 +107,9 @@ public static MyData getInstance(DataBaseHelper dbHelper){
         }
         if (activityName == "ProtocolActivity"){
             this.studentTrialsArray.add(newEnteredText);
-            this.newTrialsNames.add(newEnteredText);
-            sendNewTrialsToDb();
+           // this.newTrialsNames.add(newEnteredText);
+           // сохраняем пробу в базу данных проб
+            saveNewTrialToDb(newEnteredText);
         }
         notifyObservers();
 
@@ -119,8 +120,8 @@ public static MyData getInstance(DataBaseHelper dbHelper){
         dbHelper.saveStudentsToDb(newStudentsNames);
     }
 
-    public void sendNewTrialsToDb() {
-      //  dataBaseHelper.saveTrialsToDb(newTrialsNames);
+    public void saveNewTrialToDb(String newTrial) {
+       dbHelper.saveNewTrialToDbIfNotExists(newTrial);
     }
 
 }

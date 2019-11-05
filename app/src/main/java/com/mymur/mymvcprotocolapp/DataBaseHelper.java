@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 
 public class DataBaseHelper extends SQLiteOpenHelper {
     //константы
@@ -21,6 +22,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     ArrayList<Integer> trialsIdsArr;
     HashMap <Integer, String> studentsMap;
     ArrayList <Integer> studentTrialsIDArr;
+    HashSet  <String> allTrialsSet;
 
     public DataBaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -31,7 +33,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         newStudentsNamesArr = new ArrayList<>();
         newStudentTrialsArr = new ArrayList<>();
         studentTrialsIDArr = new ArrayList<>();
-
+        allTrialsSet = new HashSet<>();
     }
 
 
@@ -85,6 +87,10 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         studentTrialsIDArr = PracticingResultsTable.getStudentTrialsIDArray(studentId, database);
         studentTrialsNamesArr = TrialsTable.getNamesOfAllStudentTrial(studentTrialsIDArr, database);
         return studentTrialsNamesArr;
+    }
+
+    public void saveNewTrialToDbIfNotExists (String trialName) {
+        TrialsTable.addTrialIfNotExists(trialName, this.getWritableDatabase());
     }
 
 }
