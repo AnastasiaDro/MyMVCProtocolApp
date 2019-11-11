@@ -7,6 +7,7 @@ import com.mymur.mymvcprotocolapp.Interfaces.Observable;
 import com.mymur.mymvcprotocolapp.Interfaces.Observer;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -17,10 +18,63 @@ public class MyData implements Observable {
     private List<Observer> observers;
     private ArrayList<String> namesArray;
     private ArrayList <String> studentTrialsArray;
+    // Hashmap для проб студента
+    private HashMap <Integer, String> studentsTrialsHashMap;
+
     String newString;
 
     ArrayList <String> newStudentsNames;
     ArrayList <String> newTrialsNames;
+
+
+
+    public void setCurrentStudentName(String currentStudentName) {
+        this.currentStudentName = currentStudentName;
+    }
+
+
+
+    public void setCurrentTrialName(String currentTrialName) {
+        this.currentTrialName = currentTrialName;
+      //  currentTrialId = studentsTrialsHashMa
+    }
+
+    //переменные для записи в массив
+    int currentStudentID;
+    String currentStudentName;
+    int currentTrialId;
+    String currentTrialName;
+    int currentResCode;
+
+    public int getCurrentStudentID() {
+        return currentStudentID;
+    }
+
+    public int getCurrentTrialId() {
+        return currentTrialId;
+    }
+
+    public int getCurrentResCode() {
+        return currentResCode;
+    }
+
+    public void setCurrentStudentID(int currentStudentID) {
+        this.currentStudentID = currentStudentID;
+    }
+
+    public void setCurrentTrialId(int currentTrialId) {
+        this.currentTrialId = currentTrialId;
+    }
+
+    public void setCurrentResCode(int currentResCode) {
+        this.currentResCode = currentResCode;
+    }
+
+
+
+
+
+
 
     //делаем из класса синглтон
     //private MyData(DataBaseClass dataBaseClass){
@@ -29,11 +83,15 @@ public class MyData implements Observable {
         studentTrialsArray = new ArrayList<>();
         newStudentsNames = new ArrayList<>();
         newTrialsNames = new ArrayList<>();
+        //наш хэшмап
+        studentsTrialsHashMap = new HashMap<>();
+
         observers = new LinkedList<>();
        // this.dataBaseClass = dataBaseClass;
         this.dbHelper = dbHelper;
         //в получившийся аррэйлист загружаем данные из БД
         namesArray = loadNamesFromDb();
+
     }
 
 
@@ -63,8 +121,15 @@ public static MyData getInstance(DataBaseHelper dbHelper){
     }
 
     protected ArrayList<String> loadTrialsFromDb(String studentName) {
-        studentTrialsArray = dbHelper.extractTrialsOfStudent(studentName);
+        extractTrialsOfStudentMap(studentName);
+        studentTrialsArray.addAll(studentsTrialsHashMap.values());
         return studentTrialsArray;
+    }
+
+
+    protected HashMap <Integer, String> extractTrialsOfStudentMap(String studentName) {
+        studentsTrialsHashMap = dbHelper.extractTrialsOfStudent(studentName);
+        return studentsTrialsHashMap;
     }
 
 
@@ -121,8 +186,8 @@ public static MyData getInstance(DataBaseHelper dbHelper){
 
     //метод записи в кэш данных
     //каждые 10 проб отправляем в базу
-    public void saveResultOfTrialToArr() {
-
+    public void saveResultOfTrial() {
+        dbHelper.addTrialsResult(currentStudentID, currentTrialId, currentResCode, dbHelper.getWritableDatabase());
     }
 
 }

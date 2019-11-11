@@ -56,7 +56,7 @@ public class ListFragment extends Fragment implements Observer {
         View view = inflater.inflate(R.layout.fragment_list, container, false);
        final RecyclerView recyclerView = view.findViewById(R.id.recyclerForFragment);
         Log.d("2", "stringsArray перед передачей адаптеру: "+ stringsArray.toString());
-        myAdapter = new MyAdapter(stringsArray, activityName);
+        myAdapter = new MyAdapter(stringsArray, activityName, myData);
         recyclerView.setAdapter(myAdapter);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);

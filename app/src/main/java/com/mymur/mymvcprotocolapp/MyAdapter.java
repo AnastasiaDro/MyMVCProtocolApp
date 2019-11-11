@@ -20,14 +20,15 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>{
     ArrayList<String> stringsArray;
     String activityName;
     int selectedPosition;
+    MyData myData;
 
 
 
-    public MyAdapter(ArrayList<String> stringsArray, String activityName) {
+    public MyAdapter(ArrayList<String> stringsArray, String activityName, MyData myData) {
 
         this.stringsArray = stringsArray;
         this.activityName = activityName;
-
+       this.myData = myData;
         //Связано с выделением
        // selectedItems = new SparseBooleanArray();
         selectedPosition = 0;
@@ -65,6 +66,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>{
                         case ("MainActivity"):
                             Intent intent = new Intent(textView.getContext(), ProtocolActivity.class);
                             intent.putExtra("StudentName", textViewContent);
+                            //заменим в MyData имя текущего студента
+                            myData.setCurrentStudentName(textViewContent);
                             itemView.getContext().startActivity(intent);
                             break;
                         case ("ProtocolActivity"):
@@ -74,7 +77,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>{
                             //добавляем в нее: новый id_training INT PRIMARY KEY, id нащей пробы по имени textViewContent, id_student INT, date DATETIME, res_code INT - зависит от кнопки
 
                             //TODO
-
+                            myData.setCurrentTrialName(textViewContent);
                             break;
                     }
                 }
