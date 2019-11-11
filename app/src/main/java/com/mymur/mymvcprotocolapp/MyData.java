@@ -89,7 +89,8 @@ public class MyData implements Observable {
        // this.dataBaseClass = dataBaseClass;
         this.dbHelper = dbHelper;
         //в получившийся аррэйлист загружаем данные из БД
-        namesArray = loadNamesFromDb();
+        namesArray = new ArrayList<>();
+        loadNamesFromDb(namesArray);
         currentTrialId = -1;
         currentStudentID = -1;
         currentResCode = -1;
@@ -112,13 +113,15 @@ public static MyData getInstance(DataBaseHelper dbHelper){
     }
 
     //загрузка имен студентов из базы данных
-    protected ArrayList <String> loadNamesFromDb(){
+    protected ArrayList <String> loadNamesFromDb(ArrayList namesArray){
         //dataBaseClass.turnONdataBase();
 //        dataBaseClass.createTablesForDb();
         studentsHashMap = dbHelper.extractStudents();
         //добавим все имена студентов из хэщмапа с их именами
-        namesArray.addAll(studentsHashMap.keySet());
-
+        //если массив не пустой, то добавляем в массив имен студентов
+        if (!studentsHashMap.isEmpty()) {
+            namesArray.addAll(studentsHashMap.keySet());
+        }
         return namesArray;
     }
 

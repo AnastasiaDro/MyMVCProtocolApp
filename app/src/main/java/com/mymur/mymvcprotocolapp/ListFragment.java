@@ -145,7 +145,7 @@ public class ListFragment extends Fragment implements Observer {
         } else if (activityName == "ProtocolActivity") {
             String studentName = getActivity().getIntent().getStringExtra("StudentName");
             System.out.println("Имя ученика = "+ studentName);
-            stringsArray = myData.loadTrialsFromDb(studentName);
+            stringsArray = myData.loadTrialsFromDb();
         }
     }
 
