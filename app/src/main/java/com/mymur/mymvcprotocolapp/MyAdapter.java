@@ -67,7 +67,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>{
                             Intent intent = new Intent(textView.getContext(), ProtocolActivity.class);
                             intent.putExtra("StudentName", textViewContent);
                             //заменим в MyData имя текущего студента
-                            myData.setCurrentStudentName(textViewContent);
+                            myData.setCurrentStudentNameAndId(textViewContent);
                             itemView.getContext().startActivity(intent);
                             break;
                         case ("ProtocolActivity"):
@@ -77,7 +77,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>{
                             //добавляем в нее: новый id_training INT PRIMARY KEY, id нащей пробы по имени textViewContent, id_student INT, date DATETIME, res_code INT - зависит от кнопки
 
                             //TODO
-                            myData.setCurrentTrialName(textViewContent);
+                            myData.setCurrentTrialNameAndId(textViewContent);
                             break;
                     }
                 }

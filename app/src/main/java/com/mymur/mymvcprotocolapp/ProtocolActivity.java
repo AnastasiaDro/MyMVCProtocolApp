@@ -60,5 +60,7 @@ public class ProtocolActivity extends AppCompatActivity {
             }
         }
         //ЗДЕСЬ МЕТОД ОТПРАВКИ В БАЗУ ДАННЫХ ПРОБЫ
+        myData.setCurrentResCode(resultCode);
+        myData.saveResultOfTrial();
     }
 }

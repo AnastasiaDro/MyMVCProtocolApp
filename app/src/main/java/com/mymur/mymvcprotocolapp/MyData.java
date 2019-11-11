@@ -2,6 +2,7 @@ package com.mymur.mymvcprotocolapp;
 
 import android.app.Activity;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.mymur.mymvcprotocolapp.Interfaces.Observable;
 import com.mymur.mymvcprotocolapp.Interfaces.Observer;
@@ -19,7 +20,8 @@ public class MyData implements Observable {
     private ArrayList<String> namesArray;
     private ArrayList <String> studentTrialsArray;
     // Hashmap для проб студента
-    private HashMap <Integer, String> studentsTrialsHashMap;
+   private HashMap <String, Integer> studentsHashMap;
+    private HashMap <String, Integer> studentsTrialsHashMap;
 
     String newString;
 
@@ -28,15 +30,18 @@ public class MyData implements Observable {
 
 
 
-    public void setCurrentStudentName(String currentStudentName) {
+    public void setCurrentStudentNameAndId(String currentStudentName) {
         this.currentStudentName = currentStudentName;
+        this.currentStudentID = studentsHashMap.get(currentStudentName);
     }
 
 
 
-    public void setCurrentTrialName(String currentTrialName) {
+    public void setCurrentTrialNameAndId(String currentTrialName) {
+
+        //и надо id пробы тут поменять
         this.currentTrialName = currentTrialName;
-      //  currentTrialId = studentsTrialsHashMa
+      currentTrialId = studentsTrialsHashMap.get(currentTrialName);
     }
 
     //переменные для записи в массив
@@ -46,21 +51,14 @@ public class MyData implements Observable {
     String currentTrialName;
     int currentResCode;
 
-    public int getCurrentStudentID() {
-        return currentStudentID;
-    }
+//    public int getCurrentStudentID() {
+//        return currentStudentID;
+//    }
 
-    public int getCurrentTrialId() {
-        return currentTrialId;
-    }
 
-    public int getCurrentResCode() {
-        return currentResCode;
-    }
 
-    public void setCurrentStudentID(int currentStudentID) {
-        this.currentStudentID = currentStudentID;
-    }
+
+
 
     public void setCurrentTrialId(int currentTrialId) {
         this.currentTrialId = currentTrialId;
@@ -85,13 +83,16 @@ public class MyData implements Observable {
         newTrialsNames = new ArrayList<>();
         //наш хэшмап
         studentsTrialsHashMap = new HashMap<>();
+        studentsHashMap = new HashMap<>();
 
         observers = new LinkedList<>();
        // this.dataBaseClass = dataBaseClass;
         this.dbHelper = dbHelper;
         //в получившийся аррэйлист загружаем данные из БД
         namesArray = loadNamesFromDb();
-
+        currentTrialId = -1;
+        currentStudentID = -1;
+        currentResCode = -1;
     }
 
 
@@ -114,21 +115,22 @@ public static MyData getInstance(DataBaseHelper dbHelper){
     protected ArrayList <String> loadNamesFromDb(){
         //dataBaseClass.turnONdataBase();
 //        dataBaseClass.createTablesForDb();
-
-        namesArray = dbHelper.extractStudentsNamesArray();
+        studentsHashMap = dbHelper.extractStudents();
+        //добавим все имена студентов из хэщмапа с их именами
+        namesArray.addAll(studentsHashMap.keySet());
 
         return namesArray;
     }
 
-    protected ArrayList<String> loadTrialsFromDb(String studentName) {
-        extractTrialsOfStudentMap(studentName);
-        studentTrialsArray.addAll(studentsTrialsHashMap.values());
+    protected ArrayList<String> loadTrialsFromDb() {
+        extractTrialsOfStudentMap();
+        studentTrialsArray.addAll(studentsTrialsHashMap.keySet());
         return studentTrialsArray;
     }
 
 
-    protected HashMap <Integer, String> extractTrialsOfStudentMap(String studentName) {
-        studentsTrialsHashMap = dbHelper.extractTrialsOfStudent(studentName);
+    protected HashMap <String, Integer> extractTrialsOfStudentMap() {
+        studentsTrialsHashMap = dbHelper.extractTrialsOfStudent(currentStudentName);
         return studentsTrialsHashMap;
     }
 
@@ -184,10 +186,13 @@ public static MyData getInstance(DataBaseHelper dbHelper){
        dbHelper.saveNewTrialToDbIfNotExists(newTrial);
     }
 
-    //метод записи в кэш данных
-    //каждые 10 проб отправляем в базу
+    //метод записи результата в BD
     public void saveResultOfTrial() {
-        dbHelper.addTrialsResult(currentStudentID, currentTrialId, currentResCode, dbHelper.getWritableDatabase());
+        if (currentStudentID != -1 && currentTrialId != -1 && currentResCode != -1) {
+            dbHelper.addTrialsResult(currentStudentID, currentTrialId, currentResCode, dbHelper.getWritableDatabase());
+        } else {
+
+        }
     }
 
 }
