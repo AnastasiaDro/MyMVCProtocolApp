@@ -63,4 +63,11 @@ public class ProtocolActivity extends AppCompatActivity {
         myData.setCurrentResCode(resultCode);
         myData.saveResultOfTrial();
     }
+
+//    @Override
+//    protected void onStop(){
+//        super.onStop();
+//        myData.setCurrentTrialNameAndId();
+//    }
+
 }

@@ -143,7 +143,6 @@ public static MyData getInstance(DataBaseHelper dbHelper){
     public void changeArrayList(String newEnteredText, String activityName) {
         this.newString = newEnteredText;
         if (activityName == "MainActivity") {
-         //   this.namesArray.add(newEnteredText);
             this.newStudentsNames.add(newEnteredText);
             saveNewStudentsToDb();
             namesArray.clear();
@@ -153,12 +152,8 @@ public static MyData getInstance(DataBaseHelper dbHelper){
         }
         if (activityName == "ProtocolActivity"){
             this.studentTrialsArray.add(newEnteredText);
-         //   this.newTrialsNames.add(newEnteredText);
            // сохраняем пробу в базу данных проб
             saveNewTrialToDb(newEnteredText);
-            //НО ТУТ ЕЩЁ НЕ ДОБАВИЛОСЬ В ПРОБЫ СТУДЕНТА
-          // studentsTrialsHashMap = extractTrialsOfStudentMap();
-            //System.out.println("Это studentsTrialsHashMap после добавления новой пробы" + studentsTrialsHashMap.toString());
         }
         notifyObservers();
 
