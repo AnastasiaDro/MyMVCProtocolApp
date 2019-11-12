@@ -34,7 +34,7 @@ public class TrialsTable {
 
     public static ArrayList <String> getNamesOfAllStudentTrial(ArrayList <Integer> studentTrialsIDArr, SQLiteDatabase database){
         ArrayList <String> namesOfAllStudentTrial = new ArrayList<>();
-        HashMap <Integer, String> trialsHashMap = getAllTrialsNamesAndId(database);
+        HashMap <Integer, String> trialsHashMap = getAllTrialsIdAndNames(database);
         String trialName;
         for (int i = 0; i < studentTrialsIDArr.size(); i++) {
             trialName = trialsHashMap.get(studentTrialsIDArr.get(i));
@@ -44,7 +44,7 @@ public class TrialsTable {
     }
 
 
-    public static HashMap<Integer, String> getAllTrialsNamesAndId(SQLiteDatabase database){
+    public static HashMap<Integer, String> getAllTrialsIdAndNames(SQLiteDatabase database){
         HashMap<Integer, String> trialsHashMap = new HashMap<>();
         // Cursor myCursor = database.rawQuery("select name from Students", null);
         Cursor myCursor = database.rawQuery("SELECT " + COLUMN_ID + ", "+ COLUMN_NAME + " from "  +TABLE_NAME,  null);
@@ -58,5 +58,18 @@ public class TrialsTable {
         return trialsHashMap;
 
     }
+public static HashMap<String, Integer> getAllTrialsNamesAndId(SQLiteDatabase database){
+    HashMap<String, Integer> trialsHashMap = new HashMap<>();
+    // Cursor myCursor = database.rawQuery("select name from Students", null);
+    Cursor myCursor = database.rawQuery("SELECT " + COLUMN_ID + ", "+ COLUMN_NAME + " from "  +TABLE_NAME,  null);
+    int idIndex = myCursor.getColumnIndexOrThrow(COLUMN_ID);
+    int nameIndex = myCursor.getColumnIndexOrThrow(COLUMN_NAME);
 
+    while (myCursor.moveToNext()) {
+        trialsHashMap.put(myCursor.getString(nameIndex), myCursor.getInt(idIndex));
+        System.out.println(" добавили пробу");
+    }
+    return trialsHashMap;
+
+}
 }

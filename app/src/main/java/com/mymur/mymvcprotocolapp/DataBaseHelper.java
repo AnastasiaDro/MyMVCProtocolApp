@@ -98,6 +98,12 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         PracticingResultsTable.addPracticing(studentId, trialId, resCode, database);
     }
 
+    public int getTrialIdByName(String trialName) {
+        int trialId = -1;
+        trialId = TrialsTable.getAllTrialsNamesAndId(this.getReadableDatabase()).get(trialName);
+        return trialId;
+    }
+
 
 
 

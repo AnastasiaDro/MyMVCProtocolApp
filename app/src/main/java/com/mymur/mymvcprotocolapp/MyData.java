@@ -49,7 +49,7 @@ public class MyData implements Observable {
         this.currentTrialName = currentTrialName;
         System.out.println("Это метод setCurrentTrialNameAndId(String currentTrialName)");
         System.out.println("Это studentsTrialsHashMap " + studentsTrialsHashMap.toString());
-        currentTrialId = studentsTrialsHashMap.get(currentTrialName);
+        currentTrialId = getTrialId(currentTrialName);
     }
 
     //переменные для записи в массив
@@ -121,6 +121,7 @@ public static MyData getInstance(DataBaseHelper dbHelper){
 
     protected HashMap <String, Integer> extractTrialsOfStudentMap() {
         studentsTrialsHashMap = dbHelper.extractTrialsOfStudent(currentStudentName);
+        System.out.println("Это extractTrialsOfStudentMap() и studentsTrialsHashMap " + studentsTrialsHashMap.toString());
         return studentsTrialsHashMap;
     }
 
@@ -146,7 +147,6 @@ public static MyData getInstance(DataBaseHelper dbHelper){
         this.newString = newEnteredText;
         if (activityName == "MainActivity") {
             this.namesArray.add(newEnteredText);
-//            Log.d("7", "namesArray внутри MyData"+ namesArray.toString());
             this.newStudentsNames.add(newEnteredText);
             System.out.println("Это newStudentsArr внутри MyData"+ newStudentsNames.toString());
             saveNewStudentsToDb();
@@ -156,7 +156,7 @@ public static MyData getInstance(DataBaseHelper dbHelper){
             this.newTrialsNames.add(newEnteredText);
            // сохраняем пробу в базу данных проб
             saveNewTrialToDb(newEnteredText);
-
+            //НО ТУТ ЕЩЁ НЕ ДОБАВИЛОСЬ В ПРОБЫ СТУДЕНТА
            studentsTrialsHashMap = extractTrialsOfStudentMap();
             System.out.println("Это studentsTrialsHashMap после добавления новой пробы" + studentsTrialsHashMap.toString());
         }
@@ -171,12 +171,23 @@ public static MyData getInstance(DataBaseHelper dbHelper){
 
     public void saveNewTrialToDb(String newTrial) {
        dbHelper.saveNewTrialToDbIfNotExists(newTrial);
+
     }
+
+    private int getTrialId(String trialName){
+        return dbHelper.getTrialIdByName(currentTrialName);
+    }
+
 
     //метод записи результата в BD
     public void saveResultOfTrial() {
+        //проблемы с Id пробы
+        System.out.println("saveResultOfTrial() currentStudentId: "+ currentStudentID);
+        System.out.println("saveResultOfTrial() currentTrialId: "+ currentTrialId);
+        System.out.println("saveResultOfTrial() currentResCode: "+ currentResCode);
         if (currentStudentID != -1 && currentTrialId != -1 && currentResCode != -1) {
             dbHelper.addTrialsResult(currentStudentID, currentTrialId, currentResCode, dbHelper.getWritableDatabase());
+            System.out.println("Сработал saveResultOfTrial() ");
         } else {
 
         }
