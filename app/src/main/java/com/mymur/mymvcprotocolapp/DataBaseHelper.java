@@ -69,24 +69,24 @@ public class DataBaseHelper extends SQLiteOpenHelper {
      }
 
 
-    public HashMap<String, Integer>  extractTrialsOfStudent(String studentName) {
-        SQLiteDatabase database = this.getReadableDatabase();
-        //хэшмап для проб студента
-        HashMap<String, Integer> studentsTrialsHashMap = new HashMap<>();
-        //здесь код из 3х таблиц
-        //Получаем ID студента по его имени
-        int studentId = StudentsTable.getStudentId(database, studentName);
-        //Получаем все ID-шники проб студента из практики
-        studentTrialsIDArr = PracticingResultsTable.getStudentTrialsIDArray(studentId, database);
-        studentTrialsNamesArr = TrialsTable.getNamesOfAllStudentTrial(studentTrialsIDArr, database);
-        if (studentTrialsIDArr.size() == studentTrialsNamesArr.size()) {
-            for (int i = 0; i < studentTrialsIDArr.size(); i++) {
-            studentsTrialsHashMap.put(studentTrialsNamesArr.get(i), studentTrialsIDArr.get(i));
-            }
-
-        }
-        return studentsTrialsHashMap;
-    }
+//    public HashMap<String, Integer>  extractTrialsOfStudent(String studentName) {
+//        SQLiteDatabase database = this.getReadableDatabase();
+//        //хэшмап для проб студента
+//        HashMap<String, Integer> studentsTrialsHashMap = new HashMap<>();
+//        //здесь код из 3х таблиц
+//        //Получаем ID студента по его имени
+//        int studentId = StudentsTable.getStudentId(database, studentName);
+//        //Получаем все ID-шники проб студента из практики
+//        studentTrialsIDArr = PracticingResultsTable.getStudentTrialsIDArray(studentId, database);
+//        studentTrialsNamesArr = TrialsTable.getNamesOfAllStudentTrial(studentTrialsIDArr, database);
+//        if (studentTrialsIDArr.size() == studentTrialsNamesArr.size()) {
+//            for (int i = 0; i < studentTrialsIDArr.size(); i++) {
+//            studentsTrialsHashMap.put(studentTrialsNamesArr.get(i), studentTrialsIDArr.get(i));
+//            }
+//
+//        }
+//        return studentsTrialsHashMap;
+//    }
 
 
 
@@ -102,6 +102,18 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         int trialId = -1;
         trialId = TrialsTable.getAllTrialsNamesAndId(this.getReadableDatabase()).get(trialName);
         return trialId;
+    }
+
+    public ArrayList <String> getAllStudentTrialsNamesByIdArrayList(int studentId){
+        ArrayList <Integer> allStudentTrialsIds = new ArrayList<>();
+        allStudentTrialsIds = PracticingResultsTable.getStudentTrialsIDArray(studentId, this.getReadableDatabase());
+        HashMap <Integer, String> allTrialsMap = new HashMap<>();
+        allTrialsMap = TrialsTable.getAllTrialsIdAndNames(this.getReadableDatabase());
+        ArrayList<String> studentTrialsNames = new ArrayList<>();
+        for (int i = 0; i < allStudentTrialsIds.size(); i++) {
+            studentTrialsNames.add(allTrialsMap.get(allStudentTrialsIds.get(i)));
+        }
+        return studentTrialsNames;
     }
 
 

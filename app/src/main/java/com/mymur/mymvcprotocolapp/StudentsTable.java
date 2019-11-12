@@ -37,12 +37,9 @@ public class StudentsTable {
             System.out.println(" добавили студента");
         }
         return studentsHashMap;
-
     }
 
 
-    //TODO
-    //вот тут проблема no such column kolya
     public static int getStudentId(SQLiteDatabase database, String studentName) {
         int studentId = -1;
         Cursor myCursor = database.rawQuery("SELECT " + COLUMN_ID + "  FROM "  +TABLE_NAME + " WHERE " + COLUMN_NAME +" LIKE '" + studentName + "'",  null);
@@ -51,10 +48,7 @@ public class StudentsTable {
         while (myCursor.moveToNext()) {
             studentId = myCursor.getInt(idIndex);
         }
-
-
         System.out.println("Это id индекс "+ idIndex);
-
         return studentId;
     }
 

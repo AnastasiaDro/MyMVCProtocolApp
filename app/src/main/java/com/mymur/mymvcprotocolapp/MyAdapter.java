@@ -71,10 +71,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>{
                             itemView.getContext().startActivity(intent);
                             break;
                         case ("ProtocolActivity"):
-                            //Если активность protocolActivity, то при нажатии на пробу берется название этой пробы textViewContent
-                            //открываем базу данных
-
-                            //TODO
                             myData.setCurrentTrialNameAndId(textViewContent);
                             break;
                     }

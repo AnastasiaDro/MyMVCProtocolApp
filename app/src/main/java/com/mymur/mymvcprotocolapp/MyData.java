@@ -1,8 +1,5 @@
 package com.mymur.mymvcprotocolapp;
 
-import android.app.Activity;
-import android.util.Log;
-import android.widget.Toast;
 
 import com.mymur.mymvcprotocolapp.Interfaces.Observable;
 import com.mymur.mymvcprotocolapp.Interfaces.Observer;
@@ -65,7 +62,6 @@ public class MyData implements Observable {
     }
 
     //делаем из класса синглтон
-    //private MyData(DataBaseClass dataBaseClass){
 
     private MyData(DataBaseHelper dbHelper){
         studentTrialsArray = new ArrayList<>();
@@ -76,7 +72,6 @@ public class MyData implements Observable {
         studentsHashMap = new HashMap<>();
 
         observers = new LinkedList<>();
-       // this.dataBaseClass = dataBaseClass;
         this.dbHelper = dbHelper;
         //в получившийся аррэйлист загружаем данные из БД
         namesArray = new ArrayList<>();
@@ -113,17 +108,19 @@ public static MyData getInstance(DataBaseHelper dbHelper){
     }
 
     protected ArrayList<String> loadTrialsFromDb() {
-        extractTrialsOfStudentMap();
-        studentTrialsArray.addAll(studentsTrialsHashMap.keySet());
+        studentTrialsArray.clear();
+        studentTrialsArray.addAll(dbHelper.getAllStudentTrialsNamesByIdArrayList(currentStudentID));
         return studentTrialsArray;
     }
 
 
-    protected HashMap <String, Integer> extractTrialsOfStudentMap() {
-        studentsTrialsHashMap = dbHelper.extractTrialsOfStudent(currentStudentName);
-        System.out.println("Это extractTrialsOfStudentMap() и studentsTrialsHashMap " + studentsTrialsHashMap.toString());
-        return studentsTrialsHashMap;
-    }
+    //выгрузка пробы конкретного студента из БД
+//    //TODO
+//    protected HashMap <String, Integer> extractTrialsOfStudentMap() {
+//        studentsTrialsHashMap = dbHelper.extractTrialsOfStudent(currentStudentName);
+//        System.out.println("Это extractTrialsOfStudentMap() и studentsTrialsHashMap " + studentsTrialsHashMap.toString());
+//        return studentsTrialsHashMap;
+//    }
 
     @Override
     public void registerObserver(Observer observer) {
@@ -146,19 +143,22 @@ public static MyData getInstance(DataBaseHelper dbHelper){
     public void changeArrayList(String newEnteredText, String activityName) {
         this.newString = newEnteredText;
         if (activityName == "MainActivity") {
-            this.namesArray.add(newEnteredText);
+         //   this.namesArray.add(newEnteredText);
             this.newStudentsNames.add(newEnteredText);
-            System.out.println("Это newStudentsArr внутри MyData"+ newStudentsNames.toString());
             saveNewStudentsToDb();
+            namesArray.clear();
+            loadNamesFromDb(this.namesArray);
+            System.out.println("Это newStudentsArr внутри MyData"+ newStudentsNames.toString());
+
         }
         if (activityName == "ProtocolActivity"){
             this.studentTrialsArray.add(newEnteredText);
-            this.newTrialsNames.add(newEnteredText);
+         //   this.newTrialsNames.add(newEnteredText);
            // сохраняем пробу в базу данных проб
             saveNewTrialToDb(newEnteredText);
             //НО ТУТ ЕЩЁ НЕ ДОБАВИЛОСЬ В ПРОБЫ СТУДЕНТА
-           studentsTrialsHashMap = extractTrialsOfStudentMap();
-            System.out.println("Это studentsTrialsHashMap после добавления новой пробы" + studentsTrialsHashMap.toString());
+          // studentsTrialsHashMap = extractTrialsOfStudentMap();
+            //System.out.println("Это studentsTrialsHashMap после добавления новой пробы" + studentsTrialsHashMap.toString());
         }
         notifyObservers();
 
