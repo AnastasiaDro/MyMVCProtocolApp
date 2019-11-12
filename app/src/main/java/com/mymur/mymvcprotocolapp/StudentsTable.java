@@ -25,36 +25,6 @@ public class StudentsTable {
         database.insert(TABLE_NAME, null, values);
     }
 
-//    public static HashMap<Integer, String> getAllStudentsNames(SQLiteDatabase database){
-//        HashMap<Integer, String> studentsHashMap = new HashMap<>();
-//       // Cursor myCursor = database.rawQuery("select name from Students", null);
-//        Cursor myCursor = database.rawQuery("SELECT " + COLUMN_ID + ", "+ COLUMN_NAME + " from "  +TABLE_NAME,  null);
-//        int idIndex = myCursor.getColumnIndexOrThrow(COLUMN_ID);
-//        int nameIndex = myCursor.getColumnIndexOrThrow(COLUMN_NAME);
-//
-//        while (myCursor.moveToNext()) {
-//            studentsHashMap.put(myCursor.getInt(idIndex), myCursor.getString(nameIndex));
-//            System.out.println(" добавили студента");
-//        }
-//        return studentsHashMap;
-//
-//    }
-
-//        public static HashMap<String, Integer> getAllStudentsNames(SQLiteDatabase database){
-//        HashMap<String, Integer> studentsHashMap = new HashMap<>();
-//       // Cursor myCursor = database.rawQuery("select name from Students", null);
-//        Cursor myCursor = database.rawQuery("SELECT " + COLUMN_ID + ", "+ COLUMN_NAME + " from "  +TABLE_NAME,  null);
-//        int idIndex = myCursor.getColumnIndexOrThrow(COLUMN_ID);
-//        int nameIndex = myCursor.getColumnIndexOrThrow(COLUMN_NAME);
-//
-//        while (myCursor.moveToNext()) {
-//            studentsHashMap.put(myCursor.getString(nameIndex), myCursor.getInt(idIndex));
-//            System.out.println(" добавили студента");
-//        }
-//        return studentsHashMap;
-//
-//    }
-
     public static HashMap<String, Integer> getAllStudentsNames(SQLiteDatabase database){
         HashMap<String, Integer> studentsHashMap = new HashMap<>();
        // Cursor myCursor = database.rawQuery("select name from Students", null);
@@ -71,11 +41,20 @@ public class StudentsTable {
     }
 
 
+    //TODO
+    //вот тут проблема no such column kolya
     public static int getStudentId(SQLiteDatabase database, String studentName) {
-        int studentId;
-        Cursor myCursor = database.rawQuery("SELECT " + COLUMN_ID + "  FROM "  +TABLE_NAME + " WHERE " + COLUMN_NAME +"= :" + studentName,  null);
+        int studentId = -1;
+        Cursor myCursor = database.rawQuery("SELECT " + COLUMN_ID + "  FROM "  +TABLE_NAME + " WHERE " + COLUMN_NAME +" LIKE '" + studentName + "'",  null);
         int idIndex = myCursor.getColumnIndexOrThrow(COLUMN_ID);
-        studentId = myCursor.getInt(idIndex);
+        myCursor.moveToFirst();
+        while (myCursor.moveToNext()) {
+            studentId = myCursor.getInt(idIndex);
+        }
+
+
+        System.out.println("Это id индекс "+ idIndex);
+
         return studentId;
     }
 

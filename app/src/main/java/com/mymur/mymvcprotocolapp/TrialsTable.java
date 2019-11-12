@@ -28,13 +28,13 @@ public class TrialsTable {
     }
 
     public static void addTrialIfNotExists(String trialName, SQLiteDatabase database){
-       if (!getAllTrialsNames(database).containsValue(trialName));
+       if (!getAllTrialsNamesAndId(database).containsValue(trialName));
         addTrial(trialName, database);
     }
 
     public static ArrayList <String> getNamesOfAllStudentTrial(ArrayList <Integer> studentTrialsIDArr, SQLiteDatabase database){
         ArrayList <String> namesOfAllStudentTrial = new ArrayList<>();
-        HashMap <Integer, String> trialsHashMap = getAllTrialsNames(database);
+        HashMap <Integer, String> trialsHashMap = getAllTrialsNamesAndId(database);
         String trialName;
         for (int i = 0; i < studentTrialsIDArr.size(); i++) {
             trialName = trialsHashMap.get(studentTrialsIDArr.get(i));
@@ -44,7 +44,7 @@ public class TrialsTable {
     }
 
 
-    public static HashMap<Integer, String> getAllTrialsNames(SQLiteDatabase database){
+    public static HashMap<Integer, String> getAllTrialsNamesAndId(SQLiteDatabase database){
         HashMap<Integer, String> trialsHashMap = new HashMap<>();
         // Cursor myCursor = database.rawQuery("select name from Students", null);
         Cursor myCursor = database.rawQuery("SELECT " + COLUMN_ID + ", "+ COLUMN_NAME + " from "  +TABLE_NAME,  null);
@@ -53,7 +53,7 @@ public class TrialsTable {
 
         while (myCursor.moveToNext()) {
             trialsHashMap.put(myCursor.getInt(idIndex), myCursor.getString(nameIndex));
-            System.out.println(" добавили студента");
+            System.out.println(" добавили пробу");
         }
         return trialsHashMap;
 

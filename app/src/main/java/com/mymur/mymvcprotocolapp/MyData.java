@@ -33,6 +33,12 @@ public class MyData implements Observable {
     public void setCurrentStudentNameAndId(String currentStudentName) {
         this.currentStudentName = currentStudentName;
         this.currentStudentID = studentsHashMap.get(currentStudentName);
+
+        System.out.println("Это метод setCurrentStudentNameAndId ");
+        System.out.println("Это currentStudentName " + currentStudentName);
+        System.out.println("Это currentStudentID " + currentStudentID);
+        System.out.println("Это значения id в studentsHashMap " + studentsHashMap.toString());
+
     }
 
 
@@ -41,38 +47,22 @@ public class MyData implements Observable {
 
         //и надо id пробы тут поменять
         this.currentTrialName = currentTrialName;
-      currentTrialId = studentsTrialsHashMap.get(currentTrialName);
+        System.out.println("Это метод setCurrentTrialNameAndId(String currentTrialName)");
+        System.out.println("Это studentsTrialsHashMap " + studentsTrialsHashMap.toString());
+        currentTrialId = studentsTrialsHashMap.get(currentTrialName);
     }
 
     //переменные для записи в массив
-    int currentStudentID;
-    String currentStudentName;
-    int currentTrialId;
-    String currentTrialName;
-    int currentResCode;
+    private int currentStudentID;
+    private String currentStudentName;
+    private int currentTrialId;
+    private String currentTrialName;
+    private int currentResCode;
 
-//    public int getCurrentStudentID() {
-//        return currentStudentID;
-//    }
-
-
-
-
-
-
-    public void setCurrentTrialId(int currentTrialId) {
-        this.currentTrialId = currentTrialId;
-    }
 
     public void setCurrentResCode(int currentResCode) {
         this.currentResCode = currentResCode;
     }
-
-
-
-
-
-
 
     //делаем из класса синглтон
     //private MyData(DataBaseClass dataBaseClass){
@@ -104,7 +94,6 @@ public static MyData getInstance(DataBaseHelper dbHelper){
         return instance;
     }
 
-
     public ArrayList<String> getNamesArray() {
         return namesArray;
     }
@@ -114,8 +103,6 @@ public static MyData getInstance(DataBaseHelper dbHelper){
 
     //загрузка имен студентов из базы данных
     protected ArrayList <String> loadNamesFromDb(ArrayList namesArray){
-        //dataBaseClass.turnONdataBase();
-//        dataBaseClass.createTablesForDb();
         studentsHashMap = dbHelper.extractStudents();
         //добавим все имена студентов из хэщмапа с их именами
         //если массив не пустой, то добавляем в массив имен студентов
@@ -136,11 +123,6 @@ public static MyData getInstance(DataBaseHelper dbHelper){
         studentsTrialsHashMap = dbHelper.extractTrialsOfStudent(currentStudentName);
         return studentsTrialsHashMap;
     }
-
-
-
-
-
 
     @Override
     public void registerObserver(Observer observer) {
@@ -164,17 +146,19 @@ public static MyData getInstance(DataBaseHelper dbHelper){
         this.newString = newEnteredText;
         if (activityName == "MainActivity") {
             this.namesArray.add(newEnteredText);
-            Log.d("7", "namesArray внутри MyData"+ namesArray.toString());
+//            Log.d("7", "namesArray внутри MyData"+ namesArray.toString());
             this.newStudentsNames.add(newEnteredText);
             System.out.println("Это newStudentsArr внутри MyData"+ newStudentsNames.toString());
             saveNewStudentsToDb();
-
         }
         if (activityName == "ProtocolActivity"){
             this.studentTrialsArray.add(newEnteredText);
-           // this.newTrialsNames.add(newEnteredText);
+            this.newTrialsNames.add(newEnteredText);
            // сохраняем пробу в базу данных проб
             saveNewTrialToDb(newEnteredText);
+
+           studentsTrialsHashMap = extractTrialsOfStudentMap();
+            System.out.println("Это studentsTrialsHashMap после добавления новой пробы" + studentsTrialsHashMap.toString());
         }
         notifyObservers();
 

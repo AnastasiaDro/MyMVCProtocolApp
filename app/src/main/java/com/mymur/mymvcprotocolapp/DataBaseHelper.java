@@ -61,54 +61,12 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             StudentsTable.addStudent(newStudentsArray.get(i), this.getWritableDatabase());
         }
     }
-    public void saveTrialsToDbIfNotExists(ArrayList <String> newTrialsArray){
-        for (int i = 0; i < newTrialsArray.size(); i++) {
 
-        }
-        }
-
-//     public ArrayList<String> extractStudentsNamesArray() {
-//////         extractStudents();
-//////             studentsNamesArr.addAll(studentsMap.values());
-//////             return studentsNamesArr;
-//////         }
-
-//    public ArrayList<String> extractStudentsNamesArray() {
-//        extractStudents();
-//             studentsNamesArr.addAll(studentsMap.keySet());
-//             return studentsNamesArr;
-//         }
-
-//    public ArrayList<String> extractStudentsNamesArray() {
-//        extractStudents();
-//             studentsNamesArr.addAll(studentsMap.keySet());
-//             return studentsNamesArr;
-//         }
 
      public HashMap<String, Integer>  extractStudents() {
           studentsMap = StudentsTable.getAllStudentsNames(this.getWritableDatabase());
           return studentsMap;
      }
-
-
-//    public ArrayList<String>  extractTrialsOfStudent(String studentName) {
-//        SQLiteDatabase database = this.getReadableDatabase();
-//        //хэшмап для проб студента
-//        HashMap<Integer, String> studentsTrialsHashMap = new HashMap<>();
-//        //здесь код из 3х таблиц
-//        //Получаем ID студента по его имени
-//        int studentId = StudentsTable.getStudentId(database, studentName);
-//        //Получаем все ID-шники проб студента из практики
-//        studentTrialsIDArr = PracticingResultsTable.getStudentTrialsIDArray(studentId, database);
-//        studentTrialsNamesArr = TrialsTable.getNamesOfAllStudentTrial(studentTrialsIDArr, database);
-//        if (studentTrialsIDArr.size() == studentTrialsNamesArr.size()) {
-//            for (int i = 0; i < studentTrialsIDArr.size(); i++) {
-//            studentsTrialsHashMap.put(studentTrialsIDArr.get(i), studentTrialsNamesArr.get(i));
-//            }
-//
-//        }
-//        return studentTrialsNamesArr;
-//    }
 
 
     public HashMap<String, Integer>  extractTrialsOfStudent(String studentName) {

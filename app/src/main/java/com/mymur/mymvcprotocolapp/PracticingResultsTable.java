@@ -42,7 +42,9 @@ public class PracticingResultsTable {
         ArrayList <Integer> studentTrialsIDArray = new ArrayList<>();
         //Set нужен для того, чтобы добавлять только уникальные значения ID-щников в список
         HashSet <Integer> studentTrialsSet = new HashSet<>();
-        Cursor myCursor = database.rawQuery("SELECT " + COLUMN_TRIAL_ID + "  FROM "  +TABLE_NAME + " WHERE " + COLUMN_STUDENT_ID +"= :" + studentID,  null);
+      //  Cursor myCursor = database.rawQuery("SELECT " + COLUMN_ID + "  FROM "  +TABLE_NAME + " WHERE " + COLUMN_NAME +" LIKE '" + studentName + "'",
+
+        Cursor myCursor = database.rawQuery("SELECT " + COLUMN_TRIAL_ID + "  FROM "  +TABLE_NAME + " WHERE " + COLUMN_STUDENT_ID +" LIKE '" + studentID + "'",  null);
     //    int idIndex = myCursor.getColumnIndexOrThrow(COLUMN_STUDENT_ID);
         int trialId = myCursor.getColumnIndexOrThrow(COLUMN_TRIAL_ID);
 

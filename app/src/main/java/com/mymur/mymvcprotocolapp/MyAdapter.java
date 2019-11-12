@@ -73,8 +73,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>{
                         case ("ProtocolActivity"):
                             //Если активность protocolActivity, то при нажатии на пробу берется название этой пробы textViewContent
                             //открываем базу данных
-                            //берем общую таблицу practisingSet
-                            //добавляем в нее: новый id_training INT PRIMARY KEY, id нащей пробы по имени textViewContent, id_student INT, date DATETIME, res_code INT - зависит от кнопки
 
                             //TODO
                             myData.setCurrentTrialNameAndId(textViewContent);
@@ -91,7 +89,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>{
     public MyAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.linear_card, parent, false);
-        Log.d("ViewHolder", "stringsArray во ViewHolder" +stringsArray);
         MyViewHolder vh = new MyViewHolder(v);
         return vh;
     }

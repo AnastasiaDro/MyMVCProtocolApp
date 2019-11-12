@@ -3,7 +3,6 @@ package com.mymur.mymvcprotocolapp;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,7 +33,6 @@ public class ListFragment extends Fragment implements Observer {
     Fragment fragment;
     MyData myData;
     int placeId;
-    String studentName;
     MyAdapter myAdapter;
 
     public ListFragment(String activityName, MyData myData, int placeId) {
@@ -55,7 +53,6 @@ public class ListFragment extends Fragment implements Observer {
        this.makeStringsArray();
         View view = inflater.inflate(R.layout.fragment_list, container, false);
        final RecyclerView recyclerView = view.findViewById(R.id.recyclerForFragment);
-        Log.d("2", "stringsArray перед передачей адаптеру: "+ stringsArray.toString());
         myAdapter = new MyAdapter(stringsArray, activityName, myData);
         recyclerView.setAdapter(myAdapter);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
@@ -65,15 +62,11 @@ public class ListFragment extends Fragment implements Observer {
         View.OnClickListener addNewClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               Log.d("3","Это myNewString " + myNewString);
-                Log.d("4", "stringsArray во время addNewClickListener: "+ stringsArray.toString());
                 final Context context = v.getContext();
                 final EditText input = new EditText(context);
                 createInputDialog(context, input, recyclerView);
             }
         };
-
-
 
         //задаём кнопке addnew кликлистенер
         addNewBtn = view.findViewById(R.id.addNewBtn);
@@ -87,8 +80,6 @@ public class ListFragment extends Fragment implements Observer {
 
         return view;
     }
-
-
     //делаем диалог с юзером для добавления нового значения в отображаемый массив
     protected void createInputDialog(Context context, final EditText input, final RecyclerView recyclerView) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
@@ -129,11 +120,8 @@ public class ListFragment extends Fragment implements Observer {
 
     @Override
     public void updateViewData(String newString) {
-
-//
         //говорим адаптеру, что данные изменились
         myAdapter.notifyDataSetChanged();
-       System.out.println("stringsArrayList После update" + stringsArray);
     }
 
     private void makeStringsArray () {
