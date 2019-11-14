@@ -24,36 +24,64 @@ import java.util.ArrayList;
 
 public class ListFragment extends Fragment implements Observer {
 
-    MaterialButton addNewBtn;
-    TextView listTitleText;
+   // private MaterialButton addNewBtn;
+    private TextView listTitleText;
     //массив для списка
-    ArrayList<String> stringsArray;
-    String activityName;
-    String myNewString;
-    Fragment fragment;
-    MyData myData;
-    int placeId;
-    MyAdapter myAdapter;
+    protected ArrayList<String> stringsArray;
+    private String activityName;
+    private String myNewString;
+
+
+    //Fragment fragment;
+   private MyData myData;
+   private int placeId;
+   private MyAdapter myAdapter;
+
+    public ListFragment() {
+       // All Fragment classes you create must have a public, no-arg constructor.
+       // In general, the best practice is to simply never define any constructors at all and rely
+       // on Java to generate the default constructor for you. But you could also write something like this:
+
+        // doesn't do anything special
+    }
+
 
     public ListFragment(String activityName, MyData myData, int placeId) {
 
-        this.activityName = activityName;
-        this.myData = myData;
-        this.fragment = this;
-        this.placeId = placeId;
-        fragment = this;
+//        this.activityName = activityName;
+//        this.myData = myData;
+//        this.fragment = this;
+//        this.placeId = placeId;
+//
+//        myData.registerObserver(this);
+    }
 
-        myData.registerObserver(this);
+    //Фабричный метод
+    public ListFragment newInstance(String activityName, int placeId) {
+        Bundle args = new Bundle();
+        args.putString("activityName", activityName);
+        args.putInt("placeId", placeId);
+             ListFragment f = new ListFragment();
+        f.setArguments(args);
+
+
+        return f;
     }
 
 
 
-
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-       this.makeStringsArray();
+        stringsArray = new ArrayList<>();
+        this.myData = MyData.getMyData();
+        myData.registerObserver(this);
+        placeId = getArguments().getInt("placeId");
+        activityName = getArguments().getString("activityName");
+        makeStringsArray();
         View view = inflater.inflate(R.layout.fragment_list, container, false);
-       final RecyclerView recyclerView = view.findViewById(R.id.recyclerForFragment);
+        final RecyclerView recyclerView = view.findViewById(R.id.recyclerForFragment);
+
         myAdapter = new MyAdapter(stringsArray, activityName, myData);
+        System.out.println("Это стрингсаррэй "+stringsArray.toString());
         recyclerView.setAdapter(myAdapter);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
@@ -69,7 +97,7 @@ public class ListFragment extends Fragment implements Observer {
         };
 
         //задаём кнопке addnew кликлистенер
-        addNewBtn = view.findViewById(R.id.addNewBtn);
+        MaterialButton addNewBtn = view.findViewById(R.id.addNewBtn);
         addNewBtn.setOnClickListener(addNewClickListener);
         //ищем текстВью с заголовком
         listTitleText = view.findViewById(R.id.listTitleText);
@@ -125,11 +153,10 @@ public class ListFragment extends Fragment implements Observer {
     }
 
     private void makeStringsArray () {
-        System.out.println("тут метод с аррэйлистом");
-
         //выгрузить из базы данных
         if (activityName == "MainActivity") {
             stringsArray = myData.getNamesArray();
+            System.out.println("Это стрингсаррэй в  makeStringsArray ()"+stringsArray.toString());
         } else if (activityName == "ProtocolActivity") {
             String studentName = getActivity().getIntent().getStringExtra("StudentName");
             System.out.println("Имя ученика = "+ studentName);

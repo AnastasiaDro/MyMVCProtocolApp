@@ -89,6 +89,13 @@ public static MyData getInstance(DataBaseHelper dbHelper){
         return instance;
     }
 
+
+
+    public static MyData getMyData(){
+       return instance;
+        }
+
+
     public ArrayList<String> getNamesArray() {
         return namesArray;
     }
