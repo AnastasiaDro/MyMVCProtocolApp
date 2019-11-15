@@ -24,7 +24,7 @@ import java.util.ArrayList;
 
 public class ListFragment extends Fragment implements Observer {
 
-   // private MaterialButton addNewBtn;
+   private MaterialButton addNewBtn;
     private TextView listTitleText;
     //массив для списка
     protected ArrayList<String> stringsArray;
@@ -36,7 +36,7 @@ public class ListFragment extends Fragment implements Observer {
    private MyData myData;
    private int placeId;
    private MyAdapter myAdapter;
-
+//
     public ListFragment() {
        // All Fragment classes you create must have a public, no-arg constructor.
        // In general, the best practice is to simply never define any constructors at all and rely
@@ -48,34 +48,33 @@ public class ListFragment extends Fragment implements Observer {
 
     public ListFragment(String activityName, MyData myData, int placeId) {
 
-//        this.activityName = activityName;
-//        this.myData = myData;
-//        this.fragment = this;
-//        this.placeId = placeId;
-//
-//        myData.registerObserver(this);
+        this.activityName = activityName;
+        this.myData = myData;
+        //this.fragment = this;
+        this.placeId = placeId;
+
+        myData.registerObserver(this);
     }
 
     //Фабричный метод
-    public ListFragment newInstance(String activityName, int placeId) {
-        Bundle args = new Bundle();
-        args.putString("activityName", activityName);
-        args.putInt("placeId", placeId);
-             ListFragment f = new ListFragment();
-        f.setArguments(args);
-
-
-        return f;
-    }
+//    public static ListFragment newInstance(String activityName, int placeId) {
+//        Bundle args = new Bundle();
+//        args.putString("activityName", activityName);
+//        args.putInt("placeId", placeId);
+//             ListFragment f = new ListFragment();
+//        f.setArguments(args);
+//        return f;
+//    }
 
 
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         stringsArray = new ArrayList<>();
-        this.myData = MyData.getMyData();
-        myData.registerObserver(this);
-        placeId = getArguments().getInt("placeId");
-        activityName = getArguments().getString("activityName");
+//        this.myData = MyData.getMyData();
+//        myData.registerObserver(this);
+       // placeId = getArguments().getInt("placeId");
+        System.out.println("это placeId  в OncreateView"+ placeId);
+        //activityName = getArguments().getString("activityName");
         makeStringsArray();
         View view = inflater.inflate(R.layout.fragment_list, container, false);
         final RecyclerView recyclerView = view.findViewById(R.id.recyclerForFragment);
@@ -139,7 +138,7 @@ public class ListFragment extends Fragment implements Observer {
     public void postFragment(AppCompatActivity activity){
         FragmentManager fragmentManager = activity.getSupportFragmentManager();
         FragmentTransaction ft = fragmentManager.beginTransaction();
-        ft.add(placeId, this);
+        ft.replace(placeId, this);
         ft.commit();
 
     }

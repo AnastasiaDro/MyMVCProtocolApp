@@ -18,16 +18,19 @@ public class MainActivity extends AppCompatActivity {
 
         //dataBaseClass = new DataBaseClass(this);
         dbHelper = new DataBaseHelper(this);
-       // myData = MyData.getInstance(dbHelper);
+        // myData = MyData.getInstance(dbHelper);
         myData = MyData.getInstance(dbHelper);
 //        Bundle bundle = new Bundle();
 //        bundle.putInt("CurrentPosition", 0);
 
         //Создаём фрагмент со списком
-        ListFragment fragment = new ListFragment();
-        fragment = fragment.newInstance(activityName,  0);
-        //ListFragment fragment = ListFragment.newInstance(activityName,  bundle.getInt("CurrentPosition"), myData);
-       // fragment.setArguments(bundle);
-        fragment.postFragment(this);
+
+
+            ListFragment fragment = new ListFragment(activityName, myData, placeId);
+            System.out.println("Это плэйсайди в мэйн активити oncreate " + placeId);
+            //ListFragment fragment = ListFragment.newInstance(activityName,  bundle.getInt("CurrentPosition"), myData);
+            // fragment.setArguments(bundle);
+            fragment.postFragment(this);
+
     }
 }
