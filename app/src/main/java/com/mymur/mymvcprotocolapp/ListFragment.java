@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -18,6 +19,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.snackbar.Snackbar;
 import com.mymur.mymvcprotocolapp.Interfaces.Observer;
 
 import java.util.ArrayList;
@@ -169,6 +171,39 @@ public class ListFragment extends Fragment implements Observer {
             stringsArray = myData.loadTrialsFromDb();
         }
     }
+
+
+    //ДЛЯ КОНТЕКСТНОГО МЕНЮ
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+            case 111:
+                //TODO
+                //Тут нужно открыть статистику по выбранной пробе/студенту
+
+                return true;
+            case 222:
+
+
+            //в методе removeItem в MyAdapter-е нужно делать невидимым элементы в таблице студентов или проб!!!
+            myAdapter.removeItem(item.getGroupId());
+            displayMessage(getResources().getString(R.string.positionHide));
+
+
+
+
+            return true;
+            default:
+                return super.onContextItemSelected(item);
+        }
+
+    }
+
+    private void displayMessage(String message) {
+        Snackbar.make(this.getView(), message, Snackbar.LENGTH_LONG).show();
+    }
+
 
 }
 

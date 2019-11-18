@@ -16,4 +16,5 @@
     <string name="about">About</string>
     <string name="hide">Hide</string>
     <string name="delete">delete forever</string>
+    <string name="positionHide">Position is hidden</string>
 </resources>

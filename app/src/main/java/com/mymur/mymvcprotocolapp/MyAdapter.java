@@ -4,9 +4,11 @@ import android.content.Intent;
 import android.text.Layout;
 import android.util.Log;
 import android.util.SparseBooleanArray;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -36,9 +38,13 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>{
     }
 
 
-
-    public class MyViewHolder extends RecyclerView.ViewHolder {
+    //Сюда поставим наследование интерфейса OnCreateContextMenuListener
+    public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener {
         public TextView textView;
+
+        //ДЛЯ КОНТЕКСТНОГО МЕНЮ
+        //сюда вставляем наш контейнер от recyclerView
+        LinearLayout myLinearCard;
 
 
         public MyViewHolder(final View itemView) {
@@ -46,6 +52,16 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>{
 
 
             textView = itemView.findViewById(R.id.textName);
+
+            //ДЛЯ КОНТЕКСТНОГО МЕНЮ
+            //инициализируем контейнер recyclerView
+            myLinearCard = itemView.findViewById(R.id.myLinearCard);
+            //ДЛЯ КОНТЕКСТНОГО МЕНЮ
+            //делаем слушатель контекстного меню
+            myLinearCard.setOnCreateContextMenuListener(this);
+
+
+
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -83,8 +99,25 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>{
 
 
         }
+        //здесь делаем меню
+        @Override
+        public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+            menu.add(this.getAdapterPosition(), 111, 100, R.string.about);
+            menu.add(this.getAdapterPosition(), 222, 200, R.string.hide);
+        }
 
     }
+
+    //метод скрытия студента из списка
+    public void removeItem(int position) {
+        stringsArray.remove(position);
+        notifyDataSetChanged();
+        //TODO
+        //соединение с май дата
+        //тут в дата базу нужно внести в таблицу студентов, что он визибл фолс - добавить то есть визибл параметр
+
+    }
+
 
     public void selectItemView (int currentPosition, View itemView) {
         if (selectedPosition != currentPosition) {
