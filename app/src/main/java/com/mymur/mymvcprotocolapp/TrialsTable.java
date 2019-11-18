@@ -55,6 +55,7 @@ public class TrialsTable {
             trialsHashMap.put(myCursor.getInt(idIndex), myCursor.getString(nameIndex));
             System.out.println(" добавили пробу");
         }
+        myCursor.close();
         return trialsHashMap;
 
     }
@@ -69,6 +70,7 @@ public static HashMap<String, Integer> getAllTrialsNamesAndId(SQLiteDatabase dat
         trialsHashMap.put(myCursor.getString(nameIndex), myCursor.getInt(idIndex));
         System.out.println(" добавили пробу");
     }
+    myCursor.close();
     return trialsHashMap;
 
 }

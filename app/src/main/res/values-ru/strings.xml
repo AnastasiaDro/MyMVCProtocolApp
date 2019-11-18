@@ -12,6 +12,10 @@
     <string name="begin">Начать</string>
     <string name="have_not_trials">У студента нет проб</string>
     <string name="badAnswer">Плохо</string>
-    <string name="with_hint">С подсказкой</string>
+    <string name="with_hint">Подсказка</string>
     <string name="good">Хорошо</string>
+
+    <string name="about">Об ученике</string>
+    <string name="hide">Скрыть</string>
+    <string name="delete">Удалить навсегда</string>
 </resources>

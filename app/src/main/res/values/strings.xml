@@ -13,4 +13,7 @@
     <string name="badAnswer">Bad</string>
     <string name="with_hint">With hint</string>
     <string name="good">good</string>
+    <string name="about">About</string>
+    <string name="hide">Hide</string>
+    <string name="delete">delete forever</string>
 </resources>

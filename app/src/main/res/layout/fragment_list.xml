@@ -24,8 +24,8 @@
     <com.google.android.material.button.MaterialButton
         android:id="@+id/addNewBtn"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_weight="2"
+        android:layout_height="wrap_content"
+
         android:text="@string/addNew" />
 
 

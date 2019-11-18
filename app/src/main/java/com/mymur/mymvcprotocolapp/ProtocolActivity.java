@@ -9,12 +9,9 @@ import android.widget.Button;
 public class ProtocolActivity extends AppCompatActivity {
 
     private final String activityName = "ProtocolActivity";
-   // DataBaseClass dataBaseClass;
     DataBaseHelper dbHelper;
     int placeId = R.id.placeholderForProtocol;
     private MyData myData;
-    int selectedStudentId;
-    int selectedTrialId;
     int resultCode;
 
     Button badBtn;
@@ -63,11 +60,4 @@ public class ProtocolActivity extends AppCompatActivity {
         myData.setCurrentResCode(resultCode);
         myData.saveResultOfTrial();
     }
-
-//    @Override
-//    protected void onStop(){
-//        super.onStop();
-//        myData.setCurrentTrialNameAndId();
-//    }
-
 }

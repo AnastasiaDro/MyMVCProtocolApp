@@ -119,8 +119,14 @@ public class ListFragment extends Fragment implements Observer {
                myNewString = input.getText().toString();
                 //изменяем данные в Observable классе и в нем уже уведомляем об этом наблюдателей
                 myData.changeArrayList(myNewString, activityName);
+                //изменяем текущие имя и ID на новые
+               // myData.setCurrentStudentNameAndId(myNewString);
                 //говорим адаптеру, что данные изменились
                 myAdapter.notifyDataSetChanged();
+                //тут надо выделить новый элемент
+
+
+
 
             }
         });
@@ -149,6 +155,7 @@ public class ListFragment extends Fragment implements Observer {
     public void updateViewData(String newString) {
         //говорим адаптеру, что данные изменились
         myAdapter.notifyDataSetChanged();
+
     }
 
     private void makeStringsArray () {

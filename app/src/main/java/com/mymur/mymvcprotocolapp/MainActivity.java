@@ -16,12 +16,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //dataBaseClass = new DataBaseClass(this);
         dbHelper = new DataBaseHelper(this);
-        // myData = MyData.getInstance(dbHelper);
         myData = MyData.getInstance(dbHelper);
-//        Bundle bundle = new Bundle();
-//        bundle.putInt("CurrentPosition", 0);
 
         //Создаём фрагмент со списком
 

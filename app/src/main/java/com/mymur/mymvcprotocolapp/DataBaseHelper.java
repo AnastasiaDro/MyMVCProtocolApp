@@ -14,16 +14,13 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "protocols.bd";
     private static final int DATABASE_VERSION = 1;
     String [] resNames;
-    ArrayList<String> studentsNamesArr;
-    ArrayList<String> studentTrialsNamesArr;
-    ArrayList<String> newStudentsNamesArr;
-    ArrayList<String> newStudentTrialsArr;
-    //ArrayList с id проб студента
-    ArrayList<Integer> trialsIdsArr;
-   // HashMap <Integer, String> studentsMap;
-    HashMap <String, Integer> studentsMap;
-    ArrayList <Integer> studentTrialsIDArr;
-    HashSet  <String> allTrialsSet;
+    private ArrayList<String> studentsNamesArr;
+    private ArrayList<String> studentTrialsNamesArr;
+    private ArrayList<String> newStudentsNamesArr;
+    private ArrayList<String> newStudentTrialsArr;
+    private HashMap <String, Integer> studentsMap;
+    private ArrayList <Integer> studentTrialsIDArr;
+    private HashSet  <String> allTrialsSet;
 
     public DataBaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -67,28 +64,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
           studentsMap = StudentsTable.getAllStudentsNames(this.getWritableDatabase());
           return studentsMap;
      }
-
-
-//    public HashMap<String, Integer>  extractTrialsOfStudent(String studentName) {
-//        SQLiteDatabase database = this.getReadableDatabase();
-//        //хэшмап для проб студента
-//        HashMap<String, Integer> studentsTrialsHashMap = new HashMap<>();
-//        //здесь код из 3х таблиц
-//        //Получаем ID студента по его имени
-//        int studentId = StudentsTable.getStudentId(database, studentName);
-//        //Получаем все ID-шники проб студента из практики
-//        studentTrialsIDArr = PracticingResultsTable.getStudentTrialsIDArray(studentId, database);
-//        studentTrialsNamesArr = TrialsTable.getNamesOfAllStudentTrial(studentTrialsIDArr, database);
-//        if (studentTrialsIDArr.size() == studentTrialsNamesArr.size()) {
-//            for (int i = 0; i < studentTrialsIDArr.size(); i++) {
-//            studentsTrialsHashMap.put(studentTrialsNamesArr.get(i), studentTrialsIDArr.get(i));
-//            }
-//
-//        }
-//        return studentsTrialsHashMap;
-//    }
-
-
 
         public void saveNewTrialToDbIfNotExists (String trialName) {
         TrialsTable.addTrialIfNotExists(trialName, this.getWritableDatabase());

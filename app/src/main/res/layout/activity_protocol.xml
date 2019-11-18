@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="horizontal" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:baselineAligned="false">
 
     <FrameLayout
         android:id="@+id/placeholderForProtocol"
@@ -12,58 +14,50 @@
 
     </FrameLayout>
 
-    <TableLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:gravity="center_vertical"
-        >
+        android:layout_weight="2">
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center_horizontal"
+        <Button
+            android:id="@+id/btnBadAnswer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:onClick="onResultClick"
+            android:text="@string/badAnswer"
+            app:layout_constraintBottom_toTopOf="@+id/btnWHanswer"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.863" />
 
-            >
+        <Button
+            android:id="@+id/btnWHanswer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:onClick="onResultClick"
+            android:text="@string/with_hint"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.82"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.499" />
 
-            <Button
-                android:id="@+id/btnBadAnswer"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="left"
-                android:layout_margin="5dp"
-                android:onClick="onResultClick"
-                android:text="@string/badAnswer" />
+        <Button
+            android:id="@+id/btnGoodAnswer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
 
-            <Button
-                android:id="@+id/btnWHanswer"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:layout_margin="5dp"
-                android:onClick="onResultClick"
-                android:text="@string/with_hint" />
-        </TableRow>
+            android:layout_margin="5dp"
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center_horizontal"
-            >
-
-            <Button
-                android:id="@+id/btnGoodAnswer"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:layout_margin="5dp"
-                android:onClick="onResultClick"
-                android:text="@string/good" />
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-    </TableLayout>
+            android:onClick="onResultClick"
+            android:text="@string/good"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btnWHanswer"
+            app:layout_constraintVertical_bias="0.081" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </LinearLayout>

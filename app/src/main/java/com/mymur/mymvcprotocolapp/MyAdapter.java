@@ -44,22 +44,24 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>{
         public MyViewHolder(final View itemView) {
             super(itemView);
 
+
             textView = itemView.findViewById(R.id.textName);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                  //   Связано с выделением
                    int currentPosition = getAdapterPosition();
-                   if (selectedPosition != currentPosition) {
-                       // Temporarily save the last selected position
-                       int lastSelectedPosition = selectedPosition;
-                       // Save the new selected position
-                       selectedPosition = currentPosition;
-                       // update the previous selected row
-                       notifyItemChanged(lastSelectedPosition);
-                       // select the clicked row
-                       itemView.setSelected(true);
-                   }
+                   selectItemView(currentPosition, itemView);
+//                   if (selectedPosition != currentPosition) {
+//                       // Temporarily save the last selected position
+//                       int lastSelectedPosition = selectedPosition;
+//                       // Save the new selected position
+//                       selectedPosition = currentPosition;
+//                       // update the previous selected row
+//                       notifyItemChanged(lastSelectedPosition);
+//                       // select the clicked row
+//                       itemView.setSelected(true);
+//                   }
 
                    String textViewContent = textView.getText().toString();
                     switch (activityName) {
@@ -78,9 +80,30 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>{
 
             });
 
+
+
         }
 
     }
+
+    public void selectItemView (int currentPosition, View itemView) {
+        if (selectedPosition != currentPosition) {
+            // Temporarily save the last selected position
+            int lastSelectedPosition = selectedPosition;
+            // Save the new selected position
+            selectedPosition = currentPosition;
+            // update the previous selected row
+            notifyItemChanged(lastSelectedPosition);
+            // select the clicked row
+            itemView.setSelected(true);
+        }
+    }
+
+//    public int findNumberOfItemByName(String itemName) {
+//        int numberOfItem = stringsArray.indexOf(itemName);
+//        return numberOfItem;
+//    }
+
     @Override
     public MyAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 

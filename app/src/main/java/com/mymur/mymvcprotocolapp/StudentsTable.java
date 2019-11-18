@@ -36,20 +36,21 @@ public class StudentsTable {
             studentsHashMap.put(myCursor.getString(nameIndex), myCursor.getInt(idIndex));
             System.out.println(" добавили студента");
         }
+        myCursor.close();
         return studentsHashMap;
     }
 
 
-    public static int getStudentId(SQLiteDatabase database, String studentName) {
-        int studentId = -1;
-        Cursor myCursor = database.rawQuery("SELECT " + COLUMN_ID + "  FROM "  +TABLE_NAME + " WHERE " + COLUMN_NAME +" LIKE '" + studentName + "'",  null);
-        int idIndex = myCursor.getColumnIndexOrThrow(COLUMN_ID);
-        myCursor.moveToFirst();
-        while (myCursor.moveToNext()) {
-            studentId = myCursor.getInt(idIndex);
-        }
-        System.out.println("Это id индекс "+ idIndex);
-        return studentId;
-    }
+//    public static int getStudentId(SQLiteDatabase database, String studentName) {
+//        int studentId = -1;
+//        Cursor myCursor = database.rawQuery("SELECT " + COLUMN_ID + "  FROM "  +TABLE_NAME + " WHERE " + COLUMN_NAME +" LIKE '" + studentName + "'",  null);
+//        int idIndex = myCursor.getColumnIndexOrThrow(COLUMN_ID);
+//        myCursor.moveToFirst();
+//        while (myCursor.moveToNext()) {
+//            studentId = myCursor.getInt(idIndex);
+//        }
+//        System.out.println("Это id индекс "+ idIndex);
+//        return studentId;
+//    }
 
 }
