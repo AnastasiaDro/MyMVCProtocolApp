@@ -43,7 +43,7 @@ public class ListFragment extends Fragment implements Observer {
        // All Fragment classes you create must have a public, no-arg constructor.
        // In general, the best practice is to simply never define any constructors at all and rely
        // on Java to generate the default constructor for you. But you could also write something like this:
-
+        //
         // doesn't do anything special
     }
 
