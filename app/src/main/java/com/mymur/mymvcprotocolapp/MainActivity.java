@@ -2,6 +2,7 @@ package com.mymur.mymvcprotocolapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
 
 public class MainActivity extends AppCompatActivity {
     private final String activityName = "MainActivity";
@@ -29,4 +30,14 @@ public class MainActivity extends AppCompatActivity {
             fragment.postFragment(this);
 
     }
+
+    //создадим options menu
+    //тут почему-то не пришлось даже создавать тулбар, он был сразу
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main_students, menu);
+        return true;
+    }
+
+
 }

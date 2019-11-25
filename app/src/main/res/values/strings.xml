@@ -17,4 +17,7 @@
     <string name="hide">Hide</string>
     <string name="delete">delete forever</string>
     <string name="positionHide">Position is hidden</string>
+    <string name="toStatistics">See statistics</string>
+    <string name="allStudentsList">All students</string>
+
 </resources>
