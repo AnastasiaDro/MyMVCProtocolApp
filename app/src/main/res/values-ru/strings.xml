@@ -15,10 +15,15 @@
     <string name="with_hint">Подсказка</string>
     <string name="good">Хорошо</string>
 
-    <string name="about">Об ученике</string>
+    <string name="aboutStudent">Об ученике</string>
+    <string name="aboutTrial">О пробе</string>
     <string name="hide">Скрыть</string>
     <string name="delete">Удалить навсегда</string>
     <string name="positionHide">Позиция скрыта</string>
     <string name="toStatistics">К статистике</string>
     <string name="allStudentsList">Все студенты</string>
+    <string name="allTrialsOfStudentList">Список проб</string>
+    <string name="exitSession">Завершить сессию</string>
+
+    <string name="aboutProgram">О программе</string>
 </resources>

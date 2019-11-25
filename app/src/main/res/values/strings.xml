@@ -13,11 +13,17 @@
     <string name="badAnswer">Bad</string>
     <string name="with_hint">With hint</string>
     <string name="good">good</string>
-    <string name="about">About</string>
+    <string name="aboutStudent">About student</string>
+    <string name="aboutTrial">About trial</string>
+
+
     <string name="hide">Hide</string>
     <string name="delete">delete forever</string>
     <string name="positionHide">Position is hidden</string>
     <string name="toStatistics">See statistics</string>
     <string name="allStudentsList">All students</string>
+    <string name="allTrialsOfStudentList">List of trials</string>
+    <string name="exitSession">Exit session</string>
 
+    <string name="aboutProgram">About app</string>
 </resources>

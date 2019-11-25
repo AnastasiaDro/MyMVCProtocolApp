@@ -2,16 +2,20 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/to_statistics"
-        android:title="@string/toStatistics"/>
+        android:id="@+id/to_trial_statistics"
+        android:title="@string/toStatistics" />
     <item
-        android:id="@+id/allStudentsList"
-        android:title="@string/allStudentsList" />
-
+        android:id="@+id/allTrialsList"
+        android:title="@string/allTrialsOfStudentList" />
+    <item
+        android:id="@+id/info"
+        android:title="@string/aboutStudent"
+        />
     <item
         android:id="@+id/aboutProgram"
         android:title="@string/aboutProgram"
         />
+
     <item
         android:id="@+id/endSession"
         android:title="@string/exitSession"/>

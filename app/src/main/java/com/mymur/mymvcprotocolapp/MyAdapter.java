@@ -102,7 +102,14 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>{
         //здесь делаем меню
         @Override
         public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-            menu.add(this.getAdapterPosition(), 111, 100, R.string.about);
+            switch (activityName) {
+                case ("MainActivity"):
+                    menu.add(this.getAdapterPosition(), 111, 100, R.string.aboutStudent);
+                    break;
+                case ("ProtocolActivity"):
+                    menu.add(this.getAdapterPosition(), 111, 100, R.string.aboutTrial);
+                    break;
+            }
             menu.add(this.getAdapterPosition(), 222, 200, R.string.hide);
         }
 

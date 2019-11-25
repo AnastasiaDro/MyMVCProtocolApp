@@ -3,6 +3,7 @@ package com.mymur.mymvcprotocolapp;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 
@@ -59,5 +60,12 @@ public class ProtocolActivity extends AppCompatActivity {
         //ЗДЕСЬ МЕТОД ОТПРАВКИ В БАЗУ ДАННЫХ ПРОБЫ
         myData.setCurrentResCode(resultCode);
         myData.saveResultOfTrial();
+    }
+
+    //Добавим options menu в тулбар
+    @Override
+    public boolean onCreateOptionsMenu (Menu menu){
+        getMenuInflater().inflate(R.menu.menu_protocol_trials, menu);
+        return true;
     }
 }
