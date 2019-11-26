@@ -1,8 +1,11 @@
 package com.mymur.mymvcprotocolapp;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuItem;
 
 public class MainActivity extends AppCompatActivity {
     private final String activityName = "MainActivity";
@@ -38,6 +41,36 @@ public class MainActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_main_students, menu);
         return true;
     }
+
+    @Override
+    public boolean onOptionsItemSelected (MenuItem item) {
+        //handle item selection
+        switch (item.getItemId()) {
+            case R.id.to_statistics:
+                Intent intent = new Intent(MainActivity.this, StatisticsActivity.class);
+
+               // intent.putExtra()
+                startActivity(intent);
+                return true;
+            case R.id.allStudentsList:
+                //...
+                //fill
+                //
+            return true;
+            case R.id.aboutProgram:
+               Intent intent1 = new Intent(MainActivity.this, Activity_about_app.class);
+               startActivity(intent1);
+             return true;
+
+            case R.id.endSession:
+                //ДОДЕЛАТЬ
+                finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+
 
 
 }

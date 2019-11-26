@@ -6,8 +6,10 @@ import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -68,17 +70,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>{
                  //   Связано с выделением
                    int currentPosition = getAdapterPosition();
                    selectItemView(currentPosition, itemView);
-//                   if (selectedPosition != currentPosition) {
-//                       // Temporarily save the last selected position
-//                       int lastSelectedPosition = selectedPosition;
-//                       // Save the new selected position
-//                       selectedPosition = currentPosition;
-//                       // update the previous selected row
-//                       notifyItemChanged(lastSelectedPosition);
-//                       // select the clicked row
-//                       itemView.setSelected(true);
-//                   }
-
                    String textViewContent = textView.getText().toString();
                     switch (activityName) {
                         case ("MainActivity"):
@@ -107,13 +98,41 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>{
                     menu.add(this.getAdapterPosition(), 111, 100, R.string.aboutStudent);
                     break;
                 case ("ProtocolActivity"):
-                    menu.add(this.getAdapterPosition(), 111, 100, R.string.aboutTrial);
+                    menu.add(this.getAdapterPosition(), 222, 100, R.string.aboutTrial);
                     break;
             }
-            menu.add(this.getAdapterPosition(), 222, 200, R.string.hide);
+            menu.add(this.getAdapterPosition(), 333, 200, R.string.hide);
+        }
+
+
+        //Обработка нажатия элемента контекстного меню
+        @Override
+        public boolean onContextItemSelected(MenuItem item) {
+            AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+            switch (item.getItemId()) {
+                case 111:
+                    //тут показываем инфу о студенте
+                    return true;
+                case 222:
+                    //тут показываем инфу о пробе
+                    return true;
+                case 333:
+                    //тут скрываем из списка
+                    removeItem(selectedPosition);
+                    return true;
+                default:
+                    return super.onContextItemSelected(item);
+            }
         }
 
     }
+
+
+
+
+
+
+
 
     //метод скрытия студента из списка
     public void removeItem(int position) {
@@ -138,11 +157,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>{
             itemView.setSelected(true);
         }
     }
-
-//    public int findNumberOfItemByName(String itemName) {
-//        int numberOfItem = stringsArray.indexOf(itemName);
-//        return numberOfItem;
-//    }
 
     @Override
     public MyAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
