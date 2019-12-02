@@ -37,7 +37,10 @@ public class ListFragment extends Fragment implements Observer {
     //Fragment fragment;
    private MyData myData;
    private int placeId;
-   private MyAdapter myAdapter;
+
+
+
+    private MyAdapter myAdapter;
 //
     public ListFragment() {
        // All Fragment classes you create must have a public, no-arg constructor.
@@ -68,7 +71,10 @@ public class ListFragment extends Fragment implements Observer {
 //        return f;
 //    }
 
-
+    //геттер для адаптера
+    public MyAdapter getMyAdapter() {
+        return myAdapter;
+    }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         stringsArray = new ArrayList<>();

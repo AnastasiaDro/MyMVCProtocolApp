@@ -2,9 +2,12 @@ package com.mymur.mymvcprotocolapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 
 public class ProtocolActivity extends AppCompatActivity {
@@ -14,7 +17,7 @@ public class ProtocolActivity extends AppCompatActivity {
     int placeId = R.id.placeholderForProtocol;
     private MyData myData;
     int resultCode;
-
+    ListFragment fragment;
     Button badBtn;
     Button withHintBtn;
     Button goodBtn;
@@ -31,7 +34,7 @@ public class ProtocolActivity extends AppCompatActivity {
         Bundle bundle = new Bundle();
         bundle.putInt("CurrentPosition", 0);
 
-        ListFragment fragment = new ListFragment(activityName, myData, placeId);
+        fragment = new ListFragment(activityName, myData, placeId);
         fragment.setArguments(bundle);
         fragment.postFragment(this);
 
@@ -68,4 +71,57 @@ public class ProtocolActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_protocol_trials, menu);
         return true;
     }
+
+    @Override
+    public boolean onOptionsItemSelected (MenuItem item) {
+        //handle item selection
+        switch (item.getItemId()) {
+            case R.id.to_statistics:
+                Intent intent = new Intent(ProtocolActivity.this, StatisticsActivity.class);
+
+                // intent.putExtra()
+                startActivity(intent);
+                return true;
+            case R.id.allStudentsList:
+                //...
+                //fill
+                //
+                return true;
+            case R.id.aboutProgram:
+                Intent intent1 = new Intent(ProtocolActivity.this, Activity_about_app.class);
+                startActivity(intent1);
+                return true;
+
+            case R.id.endSession:
+                //ДОДЕЛАТЬ
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+
+        //        //Обработка нажатия элемента контекстного меню
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        MyAdapter myAdapter= fragment.getMyAdapter();
+        switch (item.getItemId()) {
+            case 111:
+                //тут показываем инфу о студенте
+                return true;
+            case 222:
+                //тут показываем инфу о пробе
+                return true;
+            case 333:
+                //тут скрываем из списка
+                myAdapter.removeItem(item.getGroupId());
+                return true;
+            default:
+                return super.onContextItemSelected(item);
+        }
+    }
+
 }

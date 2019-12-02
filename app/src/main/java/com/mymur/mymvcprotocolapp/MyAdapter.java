@@ -1,11 +1,10 @@
 package com.mymur.mymvcprotocolapp;
 
 import android.content.Intent;
-import android.text.Layout;
-import android.util.Log;
-import android.util.SparseBooleanArray;
+
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +24,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>{
     String activityName;
     int selectedPosition;
     MyData myData;
+    Menu menu;
 
 
 
@@ -47,7 +47,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>{
         //ДЛЯ КОНТЕКСТНОГО МЕНЮ
         //сюда вставляем наш контейнер от recyclerView
         LinearLayout myLinearCard;
-
+        int adapterPos;
 
         public MyViewHolder(final View itemView) {
             super(itemView);
@@ -69,6 +69,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>{
                 public void onClick(View v) {
                  //   Связано с выделением
                    int currentPosition = getAdapterPosition();
+                   adapterPos = currentPosition;
                    selectItemView(currentPosition, itemView);
                    String textViewContent = textView.getText().toString();
                     switch (activityName) {
@@ -89,8 +90,9 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>{
 
 
 
+
         }
-        //здесь делаем меню
+//        //здесь делаем меню
         @Override
         public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
             switch (activityName) {
@@ -102,28 +104,11 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>{
                     break;
             }
             menu.add(this.getAdapterPosition(), 333, 200, R.string.hide);
+            //Обработка нажатия элемента контекстного меню
         }
 
 
-        //Обработка нажатия элемента контекстного меню
-        @Override
-        public boolean onContextItemSelected(MenuItem item) {
-            AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-            switch (item.getItemId()) {
-                case 111:
-                    //тут показываем инфу о студенте
-                    return true;
-                case 222:
-                    //тут показываем инфу о пробе
-                    return true;
-                case 333:
-                    //тут скрываем из списка
-                    removeItem(selectedPosition);
-                    return true;
-                default:
-                    return super.onContextItemSelected(item);
-            }
-        }
+
 
     }
 
@@ -170,7 +155,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>{
     public void onBindViewHolder(MyAdapter.MyViewHolder holder, int position) {
         //Связано с выделением
         // Set the selected state of the row depending on the position
-       //holder.itemView.setSelected(selectedItems.get(position, false));
+        //holder.itemView.setSelected(selectedItems.get(position, false));
         if (position == selectedPosition) {
             holder.itemView.setSelected(true);
         } else {
@@ -179,7 +164,9 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>{
         //get element from your dataset at this position
         //replace the contents of the view with that element
         holder.textView.setText(stringsArray.get(position));
+
     }
+
 
     //Return the size of your dataset (invoked by the layout manager)
     @Override

@@ -6,11 +6,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AdapterView;
 
 public class MainActivity extends AppCompatActivity {
     private final String activityName = "MainActivity";
     //DataBaseClass dataBaseClass;
     DataBaseHelper dbHelper;
+    ListFragment fragment;
     int placeId = R.id.placeholder;
     private MyData myData;
 
@@ -26,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
         //Создаём фрагмент со списком
 
 
-            ListFragment fragment = new ListFragment(activityName, myData, placeId);
+            fragment = new ListFragment(activityName, myData, placeId);
             System.out.println("Это плэйсайди в мэйн активити oncreate " + placeId);
             //ListFragment fragment = ListFragment.newInstance(activityName,  bundle.getInt("CurrentPosition"), myData);
             // fragment.setArguments(bundle);
@@ -70,6 +72,32 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+
+    //обработка контекстного меню
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+
+        //        //Обработка нажатия элемента контекстного меню
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        MyAdapter myAdapter= fragment.getMyAdapter();
+        //myAdapter.selectItemView(MyAdapter.);
+        switch (item.getItemId()) {
+            case 111:
+                //тут показываем инфу о студенте
+                Intent intent = new Intent(MainActivity.this, AboutStudentActivity.class);
+                //intent.putExtra("Student name", myData.get)
+                return true;
+            case 222:
+                //тут показываем инфу о пробе
+                return true;
+            case 333:
+                //тут скрываем из списка
+                myAdapter.removeItem(item.getGroupId());
+                return true;
+            default:
+                return super.onContextItemSelected(item);
+        }
+    }
 
 
 
