@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
-public class DataBaseHelper extends SQLiteOpenHelper {
+public class DataBaseHelper extends SQLiteOpenHelper{
     //константы
     private static final String DATABASE_NAME = "protocols.bd";
     private static final int DATABASE_VERSION = 1;
@@ -59,11 +59,11 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         }
     }
 
-
      public HashMap<String, Integer>  extractStudents() {
           studentsMap = StudentsTable.getAllStudentsNames(this.getWritableDatabase());
           return studentsMap;
      }
+
 
         public void saveNewTrialToDbIfNotExists (String trialName) {
         TrialsTable.addTrialIfNotExists(trialName, this.getWritableDatabase());
@@ -90,7 +90,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         }
         return studentTrialsNames;
     }
-
 
 
 

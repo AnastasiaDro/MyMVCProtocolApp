@@ -103,8 +103,14 @@ public static MyData getInstance(DataBaseHelper dbHelper){
         return studentTrialsArray;
     }
 
+    //TODO
+    public void setNamesArray(ArrayList arrayList) {
+        namesArray = arrayList;
+    }
+
     //загрузка имен студентов из базы данных
     protected ArrayList <String> loadNamesFromDb(ArrayList namesArray){
+
         studentsHashMap = dbHelper.extractStudents();
         //добавим все имена студентов из хэщмапа с их именами
         //если массив не пустой, то добавляем в массив имен студентов
@@ -113,6 +119,31 @@ public static MyData getInstance(DataBaseHelper dbHelper){
         }
         return namesArray;
     }
+
+    //TODO
+//        protected ArrayList <String> loadNamesFromDb(final ArrayList namesArray){
+//        Thread thread = new Thread(new Runnable() {
+//            ArrayList <String> tNamesArray = new ArrayList();
+//            @Override
+//            public void run() {
+//                studentsHashMap = dbHelper.extractStudents();
+//                //добавим все имена студентов из хэщмапа с их именами
+//                //если массив не пустой, то добавляем в массив имен студентов
+//                if (!studentsHashMap.isEmpty()) {
+//                    tNamesArray.addAll(studentsHashMap.keySet());
+//                    setNamesArray(tNamesArray);
+//                }
+//            }
+//        });
+//        thread.start();
+//        try {
+//            thread.join();
+//        } catch (InterruptedException e){
+//            System.out.printf("%s has been interrupted", thread.getName());
+//        }
+//
+//        return namesArray;
+//    }
 
     protected ArrayList<String> loadTrialsFromDb() {
         studentTrialsArray.clear();
